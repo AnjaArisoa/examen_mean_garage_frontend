@@ -1,0 +1,50 @@
+<style>
+    .hover-effect {
+        cursor: pointer;
+        border: none;
+        box-shadow: 10px 10px 10px rgba(0.2, 0.2, 0.2, 0.2);
+        transition: transform 0.3s ease-in-out;
+    }
+    .hover-effect:hover {
+        transform: scale(1.05);
+    }
+</style>
+
+<div id="features" class="card py-12 px-6 lg:px-20 mx-0 my-12 "
+    style="background-color:#f8fdfe;">
+    <div class="text-center">
+        <div
+            class="text-surface-900 dark:text-surface-0 font-normal mb-2 text-4xl">NOS
+            SERVICE</div>
+        <span class="text-muted-color text-2xl">Solutions sur mesure pour
+            répondre à vos besoins uniques....</span>
+    </div>
+    <br>
+    <br>
+    <br>
+    <p-carousel [value]="products" [numVisible]="4" [numScroll]="4"
+        [circular]="false" [responsiveOptions]="carouselResponsiveOptions">
+        <ng-template let-product #item>
+            <div
+                class="border border-surface rounded-border m-2 p-4 hover-effect"
+                (click)="goToProductDetail(product.id)">
+                <div class="mb-4">
+                    <div class="relative mx-auto">
+                        <img
+                            src="https://primefaces.org/cdn/primeng/images/demo/product/{{ product.image }}"
+                            [alt]="product.name"
+                            class="w-full rounded-border" />
+                    </div>
+                </div>
+                <div class="mb-4 font-bold text-xl">{{ product.name }}</div>
+                <div class="flex justify-between items-center">
+                    <div class="mt-0 font-medium ">
+                        {{
+                        'nous réparons vos machine et nous nous vous souhaitons une bonne année a tous et toutes'
+                        | slice:0:40 }}...
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-carousel>
+</div>
