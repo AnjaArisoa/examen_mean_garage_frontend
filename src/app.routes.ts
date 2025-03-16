@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AppLayout } from './app/layout/component/app.layout';
+import { LayoutComponent } from './app/components/layout/layout.component';
 import { DashboardComponent } from './app/components/dashboard/dashboard.component';
 import { Documentation } from './app/pages/documentation/documentation';
 import { Landing } from './app/pages/landing/landing';
@@ -13,7 +13,7 @@ import { InscriptionComponent } from './app/components/auth/inscription/inscript
 export const appRoutes: Routes = [
     {
         path: 'manager',
-        component: AppLayout,//sidebar
+        component: LayoutComponent,//sidebar
         children: [//content
             { path: '', component: DashboardComponent },
             { path: 'crud', component: CrudComponent },
