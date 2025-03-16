@@ -7,6 +7,8 @@ import { Notfound } from './app/pages/notfound/notfound';
 import {CrudComponent} from './app/components/crud/crud.component';
 import { ClientComponent } from './app/components/client/client/client.component';
 import { DetailServiceComponent } from './app/components/client/page/detail-service/detail-service.component';
+import { LoginComponent } from './app/components/auth/login/login.component';
+import { InscriptionComponent } from './app/components/auth/inscription/inscription.component';
 
 export const appRoutes: Routes = [
     {
@@ -21,6 +23,8 @@ export const appRoutes: Routes = [
         ]
     },
     { path: '', component: ClientComponent },
+    { path: 'login', component: LoginComponent },
+    { path: 'inscription', component: InscriptionComponent },
     { path: 'product/:id', component: DetailServiceComponent },
     { path: 'notfound', component: Notfound },
     { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
