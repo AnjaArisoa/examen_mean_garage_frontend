@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from './app/components/layout/layout.component';
-import { DashboardComponent } from './app/components/dashboard/dashboard.component';
+import { DashboardComponent } from './app/components/manager/page/dashboard/dashboard.component';
 import { Documentation } from './app/pages/documentation/documentation';
 import { Landing } from './app/pages/landing/landing';
 import { Notfound } from './app/pages/notfound/notfound';
