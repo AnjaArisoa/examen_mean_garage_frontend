@@ -9,6 +9,7 @@ import { ClientComponent } from './app/components/client/client/client.component
 import { DetailServiceComponent } from './app/components/client/page/detail-service/detail-service.component';
 import { LoginComponent } from './app/components/auth/login/login.component';
 import { InscriptionComponent } from './app/components/auth/inscription/inscription.component';
+import { ListeStockComponent } from './app/components/manager/page/stock/liste-stock/liste-stock.component';
 
 export const appRoutes: Routes = [
     {
@@ -17,6 +18,8 @@ export const appRoutes: Routes = [
         children: [//content
             { path: '', component: DashboardComponent },
             { path: 'crud', component: CrudComponent },
+            {path:'page/dashboard',component:DashboardComponent},
+            {path:'page/stock/liste-stock',component:ListeStockComponent},
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
             { path: 'documentation', component: Documentation },
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }

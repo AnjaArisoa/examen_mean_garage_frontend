@@ -17,11 +17,11 @@ export class LayoutMenuComponent {
         this.model = [
             {
                 label: 'Home',
-                items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/manager'] }]
+                items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['page/dashboard'] }]
             },
             {
-                label: 'Articles',
-                items: [{ label: 'Liste', icon: 'pi pi-fw pi-heart', routerLink: ['/manager/crud'] }]
+                label: 'Stock',
+                items: [{ label: 'Stock', icon: 'pi pi-fw pi-heart', routerLink: ['page/stock/liste-stock'] }]
             },
 
         ];
