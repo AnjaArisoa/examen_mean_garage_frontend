@@ -4,10 +4,11 @@ import { ChartModule } from 'primeng/chart';
 import { FluidModule } from 'primeng/fluid';
 import { debounceTime, Subscription } from 'rxjs';
 import { LayoutService } from '../../../../services/layout.service';
+import { CalendarModule } from 'primeng/calendar';
 
 @Component({
   selector: 'app-dashboard-chart-horizontal-bar',
-  imports: [CommonModule, ChartModule, FluidModule],
+  imports: [CommonModule, ChartModule, FluidModule,CalendarModule],
   templateUrl: './dashboard-chart-horizontal-bar.component.html',
   styleUrl: './dashboard-chart-horizontal-bar.component.scss'
 })

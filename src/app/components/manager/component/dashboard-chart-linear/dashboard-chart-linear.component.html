@@ -1,4 +1,11 @@
 <div class="card !mb-8">
-    <div class="font-semibold text-xl mb-4">Revenue par mois</div>
+    <div class="flex ">
+        <p class="font-semibold text-xl mb-4 w-[50%]">Revenue par mois</p>
+        <div class="flex gap-3 mb-3 w-[50%]">
+            <p-calendar  view="month" dateFormat="mm" placeholder="Mois"></p-calendar>
+            <p-calendar  view="year" dateFormat="yy" placeholder="Année"></p-calendar>
+        </div>
+    </div>
+
     <p-chart type="line" [data]="lineData" [options]="lineOptions"></p-chart>
 </div>
