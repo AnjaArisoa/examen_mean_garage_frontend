@@ -4,10 +4,11 @@ import { ChartModule } from 'primeng/chart';
 import { FluidModule } from 'primeng/fluid';
 import { debounceTime, Subscription } from 'rxjs';
 import { LayoutService } from '../../../../services/layout.service';
+import { CalendarModule } from 'primeng/calendar';
 
 @Component({
   selector: 'app-dashboard-chart-donut',
-  imports: [CommonModule, ChartModule, FluidModule],
+  imports: [CommonModule, ChartModule, FluidModule,CalendarModule],
   templateUrl: './dashboard-chart-donut.component.html',
   standalone:true,
   styleUrl: './dashboard-chart-donut.component.scss'
