@@ -1,0 +1,59 @@
+<div class="bg-surface-0 dark:bg-surface-900">
+    <div id="home" class="landing-wrapper overflow-hidden">
+        <app-topbar-client
+            class="py-6 px-6 mx-0 md:mx-12 lg:mx-20 lg:px-20 flex items-center justify-between fix lg:static" />
+            <div class="card flex flex-col items-center" style="background-color: #bee5ff;">
+                <h4>LA VOITURE ZAO DE QUELQUE CHOSE UNE VIE DE ROUTE </h4>
+            </div>
+        <div class="grid grid-cols-12 gap-8" style="background-color: #bee5ff;margin-top:-60px;">
+            <!-- À FAIRE -->
+            <div class="col-span-12 xl:col-span-4 flex flex-col items-center">
+                <div class="card !mb-8 !mt-8 w-[420px] bg-white shadow-lg rounded-xl p-6 border-t-4 border-blue-500">
+                    <h3 class="text-center text-xl font-semibold text-blue-600 border-b pb-2 mb-4">📌 À FAIRE</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center bg-gray-100 p-3 rounded-lg shadow-sm">
+                            <i class="fas fa-tasks text-blue-500 mr-3"></i> <span>Finaliser le devis</span>
+                        </li>
+                        <li class="flex items-center bg-gray-100 p-3 rounded-lg shadow-sm">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i> <span>Envoyer le rapport</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- EN COURS -->
+            <div class="col-span-12 xl:col-span-4 flex flex-col items-center">
+                <div class="card !mb-8 !mt-8 w-[420px] bg-white shadow-lg rounded-xl p-6 border-t-4 border-yellow-500">
+                    <h3 class="text-center text-xl font-semibold text-yellow-600 border-b pb-2 mb-4">⏳ EN COURS</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center bg-gray-100 p-3 rounded-lg shadow-sm">
+                            <i class="fas fa-spinner text-yellow-500 mr-3 animate-spin"></i> <span>Réunion en
+                                cours</span>
+                        </li>
+                        <li class="flex items-center bg-gray-100 p-3 rounded-lg shadow-sm">
+                            <i class="fas fa-spinner text-yellow-500 mr-3 animate-spin"></i> <span>Réunion en
+                                cours</span>
+                        </li>
+                        <li class="flex items-center bg-gray-100 p-3 rounded-lg shadow-sm">
+                            <i class="fas fa-edit text-yellow-500 mr-3"></i> <span>Correction du dossier</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- TERMINÉ -->
+            <div class="col-span-12 xl:col-span-4 flex flex-col items-center">
+                <div class="card !mb-8 !mt-8 w-[420px] bg-white shadow-lg rounded-xl p-6 border-t-4 border-green-500">
+                    <h3 class="text-center text-xl font-semibold text-green-600 border-b pb-2 mb-4">✅ TERMINÉ</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center bg-gray-100 p-3 rounded-lg shadow-sm">
+                            <i class="fas fa-check text-green-500 mr-3"></i> <span>Contrat signé</span>
+                        </li>
+                        <li class="flex items-center bg-gray-100 p-3 rounded-lg shadow-sm">
+                            <i class="fas fa-thumbs-up text-green-500 mr-3"></i> <span>Projet validé</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <app-footer-client />
+    </div>
+</div>
