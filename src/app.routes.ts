@@ -10,6 +10,8 @@ import { DetailServiceComponent } from './app/components/client/page/detail-serv
 import { LoginComponent } from './app/components/auth/login/login.component';
 import { InscriptionComponent } from './app/components/auth/inscription/inscription.component';
 import { ListeStockComponent } from './app/components/manager/page/stock/liste-stock/liste-stock.component';
+import { CommandePiecesComponent } from './app/components/manager/page/stock/commande-pieces/commande-pieces.component';
+
 
 export const appRoutes: Routes = [
     {
@@ -20,6 +22,7 @@ export const appRoutes: Routes = [
             { path: 'crud', component: CrudComponent },
             {path:'page/dashboard',component:DashboardComponent},
             {path:'page/stock/liste-stock',component:ListeStockComponent},
+            {path:'page/stock/commande-pieces',component:CommandePiecesComponent},
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
             { path: 'documentation', component: Documentation },
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }

@@ -21,8 +21,10 @@ export class LayoutMenuComponent {
             },
             {
                 label: 'Stock',
-                items: [{ label: 'Stock', icon: 'pi pi-fw pi-heart', routerLink: ['page/stock/liste-stock'] }]
+                items: [{ label: 'Pieces', icon: 'pi pi-fw pi-heart', routerLink: ['page/stock/liste-stock'] },{ label: 'Commande Pieces', icon: 'pi pi-fw pi-heart', routerLink: ['page/stock/commande-pieces'] }]
+
             },
+
 
         ];
     }
