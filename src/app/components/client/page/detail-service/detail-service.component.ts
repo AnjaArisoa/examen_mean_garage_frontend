@@ -7,10 +7,11 @@ import { InputTextModule } from 'primeng/inputtext';
 import { AvatarModule } from 'primeng/avatar';
 import { Dialog } from 'primeng/dialog';
 import { jsPDF } from 'jspdf';
+import { Message } from 'primeng/message';
 import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-detail-service',
-  imports: [CardModule, ButtonModule,TopbarClientComponent,FooterClientComponent,Dialog, ButtonModule, InputTextModule, AvatarModule],
+  imports: [CardModule, ButtonModule,TopbarClientComponent,FooterClientComponent,Dialog, ButtonModule, InputTextModule, AvatarModule,Message],
   templateUrl: './detail-service.component.html',
   styleUrl: './detail-service.component.scss'
 })
