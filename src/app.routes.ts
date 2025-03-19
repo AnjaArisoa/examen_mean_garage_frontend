@@ -10,8 +10,9 @@ import { DetailServiceComponent } from './app/components/client/page/detail-serv
 import { LoginComponent } from './app/components/auth/login/login.component';
 import { InscriptionComponent } from './app/components/auth/inscription/inscription.component';
 import { ListeStockComponent } from './app/components/manager/page/stock/liste-stock/liste-stock.component';
+import { AvancementClientComponent } from './app/components/client/page/avancement-client/avancement-client.component';
+import { DetailAvancementComponent } from './app/components/client/page/detail-avancement/detail-avancement.component';
 import { CommandePiecesComponent } from './app/components/manager/page/stock/commande-pieces/commande-pieces.component';
-
 
 export const appRoutes: Routes = [
     {
@@ -31,6 +32,8 @@ export const appRoutes: Routes = [
     { path: '', component: ClientComponent },
     { path: 'login', component: LoginComponent },
     { path: 'inscription', component: InscriptionComponent },
+    { path: 'avancement', component: AvancementClientComponent },
+    { path: 'detailavancement', component: DetailAvancementComponent },
     { path: 'product/:id', component: DetailServiceComponent },
     { path: 'notfound', component: Notfound },
     { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
