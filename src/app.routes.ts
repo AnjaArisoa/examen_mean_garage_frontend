@@ -12,6 +12,7 @@ import { InscriptionComponent } from './app/components/auth/inscription/inscript
 import { ListeStockComponent } from './app/components/manager/page/stock/liste-stock/liste-stock.component';
 import { AvancementClientComponent } from './app/components/client/page/avancement-client/avancement-client.component';
 import { DetailAvancementComponent } from './app/components/client/page/detail-avancement/detail-avancement.component';
+import { CommandePiecesComponent } from './app/components/manager/page/stock/commande-pieces/commande-pieces.component';
 
 export const appRoutes: Routes = [
     {
@@ -22,6 +23,7 @@ export const appRoutes: Routes = [
             { path: 'crud', component: CrudComponent },
             {path:'page/dashboard',component:DashboardComponent},
             {path:'page/stock/liste-stock',component:ListeStockComponent},
+            {path:'page/stock/commande-pieces',component:CommandePiecesComponent},
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
             { path: 'documentation', component: Documentation },
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
