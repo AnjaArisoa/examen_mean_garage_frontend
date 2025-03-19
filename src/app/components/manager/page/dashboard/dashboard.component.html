@@ -1,7 +1,11 @@
-<div class="flex justify-end gap-3 mb-3 ">
-    <p-calendar  view="month" dateFormat="mm" placeholder="Mois"></p-calendar>
-    <p-calendar  view="year" dateFormat="yy" placeholder="Année"></p-calendar>
-    <p-button icon="pi pi-search"/>
+<div class="flex flex-row-reverse space-x-4 space-x-reverse mb-3 ">
+    <div class="flex gap-3">
+        <p-calendar  view="year" dateFormat="yy" placeholder="Année" ></p-calendar>
+        <div>
+            <p-button icon="pi pi-search"/>
+        </div>
+    </div>
+    <p-calendar  view="month" dateFormat="mm" placeholder="Mois" ></p-calendar>
 </div>
 <div class="grid grid-cols-12 gap-8">
 

@@ -1,4 +1,7 @@
 <div class="card " >
+    <div class="flex justify-end mb-3">
+        <p-button (click)="showDialogNew()" icon="pi pi-plus" label="New" severity="info" />
+    </div>
     <div class="flex mb-5 gap-3">
         <input type="text" pInputText  variant="filled" placeholder="Nom Piece"/>
         <input type="text" pInputText  variant="filled" placeholder="Modele Voiture"/>
@@ -6,6 +9,7 @@
         <p-select [options]="modele"  placeholder="Type moteur" [editable]="true" optionLabel="name" class="w-full md:w-56" />
         <p-button icon="pi pi-search"/>
     </div>
+
     <p-table
         [value]="donnee"
         [paginator]="true"
@@ -32,14 +36,14 @@
                 <td>{{donne.prix}}</td>
                 <td>{{donne.nombre}}</td>
                 <td>
-                    <p-button (click)="showDialog()" icon="pi pi-plus" />
+                    <p-button (click)="showDialogCheck()" icon="pi pi-check" />
                 </td>
             </tr>
         </ng-template>
     </p-table>
 </div>
-<!-- modal -->
-<p-dialog header="Commande Pieces" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+<!-- modal check -->
+<p-dialog header="Verification Pieces" [modal]="true" [(visible)]="visiblecheck" [style]="{ width: '25rem' }">
     <div class="flex items-center gap-4 mb-4">
         <label for="username" class="font-semibold w-24">Nom Piece</label>
         <input pInputText id="username" class="flex-auto" autocomplete="off" value="Turbo-compresseur" disabled />
@@ -57,7 +61,7 @@
         <input pInputText id="username" class="flex-auto" autocomplete="off" value="Turbo-compresseur" disabled />
     </div>
     <div class="flex items-center gap-4 mb-8">
-        <label for="email" class="font-semibold w-24">Nombre</label>
+        <label for="email" class="font-semibold w-24">Nombre Arrivé</label>
         <input
             pInputText
             id="nombre"
@@ -70,7 +74,43 @@
 
     </div>
     <div class="flex justify-end gap-2">
-        <p-button label="Cancel" severity="secondary" (click)="visible = false" />
-        <p-button label="Save" (click)="visible = false" />
+        <p-button label="Cancel" severity="secondary" (click)="visiblecheck = false" />
+        <p-button label="Save" (click)="visiblecheck = false" />
+    </div>
+</p-dialog>
+<!-- modal new -->
+<p-dialog header="Ajout Pieces" [modal]="true" [(visible)]="visiblenew" [style]="{ width: '25rem' }">
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Nom Piece</label>
+        <input pInputText id="username" class="flex-auto" autocomplete="off"   />
+    </div>
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Modele voiture</label>
+        <input pInputText id="username" class="flex-auto" autocomplete="off"   />
+    </div>
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Type voiture</label>
+        <input pInputText id="username" class="flex-auto" autocomplete="off"   />
+    </div>
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Type moteur</label>
+        <input pInputText id="username" class="flex-auto" autocomplete="off"   />
+    </div>
+    <div class="flex items-center gap-4 mb-8">
+        <label for="email" class="font-semibold w-24">Nombre </label>
+        <input
+            pInputText
+            id="nombre"
+            class="flex-auto"
+            autocomplete="off"
+            type="number"
+            value="2"
+            min="0"
+        />
+
+    </div>
+    <div class="flex justify-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visiblenew = false" />
+        <p-button label="Save" (click)="visiblenew = false" />
     </div>
 </p-dialog>
