@@ -6,9 +6,10 @@ import { DashboardChartLinearComponent } from '../../component/dashboard-chart-l
 import { DashboardChartHorizontalBarComponent } from '../../component/dashboard-chart-horizontal-bar/dashboard-chart-horizontal-bar.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
+import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-dashboard',
-  imports: [DashboardKpiComponent,DashboardChartBarComponent,DashboardChartDonutComponent,DashboardChartLinearComponent,DashboardChartHorizontalBarComponent,InputTextModule,CalendarModule],
+  imports: [DashboardKpiComponent,DashboardChartBarComponent,DashboardChartDonutComponent,DashboardChartLinearComponent,DashboardChartHorizontalBarComponent,InputTextModule,CalendarModule,ButtonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })

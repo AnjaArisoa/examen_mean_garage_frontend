@@ -1,51 +1,54 @@
-import { Component, OnInit, signal, ViewChild } from '@angular/core';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { Table, TableModule } from 'primeng/table';
+
+import { Component } from '@angular/core';
+import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { RippleModule } from 'primeng/ripple';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
-import { RatingModule } from 'primeng/rating';
 import { InputTextModule } from 'primeng/inputtext';
-import { TextareaModule } from 'primeng/textarea';
-import { SelectModule } from 'primeng/select';
-import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { DialogModule } from 'primeng/dialog';
-import { TagModule } from 'primeng/tag';
-import { InputIconModule } from 'primeng/inputicon';
-import { IconFieldModule } from 'primeng/iconfield';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { forkJoin } from 'rxjs';
+import { Select } from 'primeng/select';
+import { Dialog } from 'primeng/dialog';
 
 @Component({
   selector: 'app-stock-liste',
   imports: [
-    CommonModule,
-          TableModule,
-          FormsModule,
-          ButtonModule,
-          RippleModule,
-          ToastModule,
-          ToolbarModule,
-          RatingModule,
-          InputTextModule,
-          TextareaModule,
-          SelectModule,
-          RadioButtonModule,
-          InputNumberModule,
-          DialogModule,
-          TagModule,
-          InputIconModule,
-          IconFieldModule,
-          ConfirmDialogModule
+        CommonModule,
+        TableModule,
+        ButtonModule,
+        InputTextModule,
+        InputNumberModule,
+        Select,
+        Dialog
   ],
   templateUrl: './stock-liste.component.html',
-  styleUrl: './stock-liste.component.scss',
-  providers: [MessageService, ConfirmationService]
+  styleUrl: './stock-liste.component.scss'
 })
 export class StockListeComponent {
+    donnee:any[]=[];
+    test={nom :" Turbo-compresseur",modele:"BMW M340i xDrive",moteur:"Diesel",prix:"12000MGA",nombre:"2",type:"SUV"};
+    modele = [
+        { name: "Diesel" },
+        { name: "Essence" }
+      ];
+      type = [
+        { name: "SUV" },
+        { name: "4x4" },
+        { name: "Plaisir" },
+        { name: "Camion" },
+      ];
+
+    constructor() {
+        this.ajouterTest();
+      }
+
+      ajouterTest() {
+        this.donnee.push(this.test);
+        console.log(this.donnee);
+      }
+      visible: boolean = false;
+
+      showDialog() {
+          this.visible = true;
+      }
+
 
 }

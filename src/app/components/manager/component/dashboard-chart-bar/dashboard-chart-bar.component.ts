@@ -5,11 +5,12 @@ import { FluidModule } from 'primeng/fluid';
 import { debounceTime, Subscription } from 'rxjs';
 import { LayoutService } from '../../../../services/layout.service';
 import { CalendarModule } from 'primeng/calendar';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-dashboard-chart-bar',
   standalone: true,
-  imports: [ChartModule,CalendarModule],
+  imports: [ChartModule,CalendarModule,ButtonModule],
   templateUrl: './dashboard-chart-bar.component.html',
   styleUrl: './dashboard-chart-bar.component.scss'
 })

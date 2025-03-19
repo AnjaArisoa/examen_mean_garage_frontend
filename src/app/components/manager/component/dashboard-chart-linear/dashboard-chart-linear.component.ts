@@ -5,10 +5,12 @@ import { FluidModule } from 'primeng/fluid';
 import { debounceTime, Subscription } from 'rxjs';
 import { LayoutService } from '../../../../services/layout.service';
 import { CalendarModule } from 'primeng/calendar';
+import { ButtonModule } from 'primeng/button';
+
 
 @Component({
   selector: 'app-dashboard-chart-linear',
-  imports: [CommonModule, ChartModule, FluidModule,CalendarModule],
+  imports: [CommonModule, ChartModule, FluidModule,CalendarModule,ButtonModule],
   templateUrl: './dashboard-chart-linear.component.html',
   standalone:true,
   styleUrl: './dashboard-chart-linear.component.scss'
