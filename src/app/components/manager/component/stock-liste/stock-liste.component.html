@@ -1,54 +1,64 @@
-<p-table
-    #dt
-    [rows]="10"
-    [paginator]="true"
-    [globalFilterFields]="['id','title', 'content']"
-    [tableStyle]="{ 'min-width': '75rem' }"
-    [rowHover]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
-    [showCurrentPageReport]="true"
-    [rowsPerPageOptions]="[10, 20, 30]"
->
-    <ng-template #caption>
-        <div class="flex items-center justify-between">
-            <h5 class="m-0">Articles</h5>
-            <p-iconfield>
-                <p-inputicon styleClass="pi pi-search" />
-                <input pInputText type="text"  placeholder="Search..." />
-            </p-iconfield>
-        </div>
-    </ng-template>
+<div class="card " >
+    <div class="flex mb-3 gap-3">
+        <input type="text" pInputText  variant="filled" placeholder="Nom Piece"/>
+        <input type="text" pInputText  variant="filled" placeholder="Modele Voiture"/>
+        <p-select [options]="type"  placeholder="Type voiture" [editable]="true" optionLabel="name" class="w-full md:w-56" />
+        <p-select [options]="modele"  placeholder="Type moteur" [editable]="true" optionLabel="name" class="w-full md:w-56" />
+        <p-button icon="pi pi-search"/>
+    </div>
+    <p-table
+        [value]="donnee"
+        [paginator]="true"
+        [rows]="5"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]"
+    >
+        <ng-template #header>
+            <tr>
+                <th style="width:25%">Nom Piece</th>
+                <th style="width:25%">Modele voiture</th>
+                <th style="width:25%">Type voiture</th>
+                <th style="width:25%">Type moteur</th>
+                <th style="width:25%">Prix</th>
+                <th style="width:25%">Nombre</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-donne>
+            <tr>
+                <td>{{donne.nom}}</td>
+                <td>{{donne.modele}}</td>
+                <td>{{donne.type}}</td>
+                <td>{{donne.moteur}}</td>
+                <td>{{donne.prix}}</td>
+                <td>{{donne.nombre}}</td>
+                <td>
+                    <p-button (click)="showDialog()" icon="pi pi-plus" />
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<!-- modal -->
+<p-dialog header="Ajout Pieces" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Nom Piece</label>
+        <input pInputText id="username" class="flex-auto" autocomplete="off" value="Turbo-compresseur" disabled />
+    </div>
+    <div class="flex items-center gap-4 mb-8">
+        <label for="email" class="font-semibold w-24">Nombre</label>
+        <input
+            pInputText
+            id="nombre"
+            class="flex-auto"
+            autocomplete="off"
+            type="number"
+            value="2"
+            min="0"
+        />
 
-    <ng-template #header>
-        <tr>
-            <th style="width: 3rem">
-                <p-tableHeaderCheckbox />
-            </th>
-            <th style="min-width: 16rem">id</th>
-            <th pSortableColumn="title" style="min-width:16rem">
-                Title
-                <p-sortIcon field="title" />
-            </th>
-            <th pSortableColumn="content" style="min-width:16rem">
-                Content
-                <p-sortIcon field="content" />
-            </th>
-
-            <th style="min-width: 12rem"></th>
-        </tr>
-    </ng-template>
-
-    <ng-template #body let-article>
-        <tr>
-            <td style="width: 3rem">
-                <p-tableCheckbox [value]="article" />
-            </td>
-            <td style="min-width: 3rem">{{ article._id }}</td>
-            <td style="min-width: 12rem">{{ article.title }}</td>
-            <td style="min-width: 12rem">{{ article.content }}</td>
-            <td>
-                <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"  />
-            </td>
-        </tr>
-    </ng-template>
-</p-table>
+    </div>
+    <div class="flex justify-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+        <p-button label="Save" (click)="visible = false" />
+    </div>
+</p-dialog>
