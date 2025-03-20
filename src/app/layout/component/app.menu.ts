@@ -29,6 +29,7 @@ export class AppMenu {
                 items: [{ label: 'Liste', icon: 'pi pi-fw pi-heart', routerLink: ['/manager/crud'] }]
             },
 
+
         ];
     }
 }

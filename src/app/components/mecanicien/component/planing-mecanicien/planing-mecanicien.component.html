@@ -1,0 +1,54 @@
+<div class="card">
+<div class="flex flex-col md:flex-row gap-4 p-6">
+
+    <!-- À FAIRE -->
+    <div class="w-full md:w-1/3 bg-gray-100 shadow-lg rounded-lg p-4"
+         (dragover)="allowDrop($event)" (drop)="drop($event, 'todo')">
+        <h2 class="text-xl font-bold text-gray-700 mb-4">📌 À faire</h2>
+        <div class="space-y-2 min-h-[100px]">
+            <div *ngFor="let task of todo" class="p-3 bg-white shadow-md rounded-md cursor-grab"
+                 draggable="true" (dragstart)="drag($event, task)">
+                {{ task }}
+            </div>
+        </div>
+    </div>
+
+    <!-- EN COURS -->
+    <div class="w-full md:w-1/3 bg-blue-100 shadow-lg rounded-lg p-4"
+         (dragover)="allowDrop($event)" (drop)="drop($event, 'inProgress')">
+        <h2 class="text-xl font-bold text-gray-700 mb-4">🚧 En cours</h2>
+        <div class="space-y-2 min-h-[100px]">
+            <div *ngFor="let task of inProgress" class="p-3 bg-white shadow-md rounded-md cursor-grab"
+                 draggable="true" (dragstart)="drag($event, task)">
+                {{ task }}
+            </div>
+        </div>
+    </div>
+
+    <!-- TERMINÉ -->
+    <div class="w-full md:w-1/3 bg-green-100 shadow-lg rounded-lg p-4"
+         (dragover)="allowDrop($event)" (drop)="drop($event, 'done')">
+        <h2 class="text-xl font-bold text-gray-700 mb-4">✅ Terminé</h2>
+        <div class="space-y-2 min-h-[100px]">
+            <div *ngFor="let task of done" class="p-3 bg-white shadow-md rounded-md cursor-grab"
+                 draggable="true" (dragstart)="drag($event, task)">
+                {{ task }}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<style>
+    div[draggable="true"] {
+        transition: transform 0.2s;
+    }
+
+    div[draggable="true"]:hover {
+        transform: scale(1.05);
+    }
+
+    div[draggable="true"]:active {
+        opacity: 0.7;
+    }
+
+</style>

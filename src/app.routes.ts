@@ -15,6 +15,8 @@ import { DetailAvancementComponent } from './app/components/client/page/detail-a
 import { CommandePiecesComponent } from './app/components/manager/page/stock/commande-pieces/commande-pieces.component';
 import { DevisGeneralClientComponent } from './app/components/client/page/devis-general-client/devis-general-client.component';
 import { PlanningRendezVousComponent } from './app/components/manager/component/planning-rendez-vous/planning-rendez-vous.component';
+import { ListeRendezVousComponent } from './app/components/mecanicien/component/liste-rendez-vous/liste-rendez-vous.component';
+import { PlaningMecanicienComponent } from './app/components/mecanicien/component/planing-mecanicien/planing-mecanicien.component';
 
 export const appRoutes: Routes = [
     {
@@ -30,6 +32,15 @@ export const appRoutes: Routes = [
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
             { path: 'documentation', component: Documentation },
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
+        ]
+    },
+    {
+        path: 'mecanicien',
+        component: LayoutComponent,//sidebar
+        children: [//content
+            { path: '', component: ListeRendezVousComponent },
+            {path:'page/planing/liste-rendez-vous',component:ListeRendezVousComponent},
+            {path:'planing/rendez-vous',component:PlaningMecanicienComponent}
         ]
     },
     { path: '', component: ClientComponent },
