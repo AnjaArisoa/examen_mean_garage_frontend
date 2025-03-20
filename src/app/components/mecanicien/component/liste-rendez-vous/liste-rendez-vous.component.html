@@ -1,0 +1,62 @@
+<div class="card shadow-lg rounded-lg bg-white p-4" style="overflow: auto;">
+    <div class="card-header mb-4">
+        <h2 class="text-xl font-semibold text-blue-500">Rendez-vous Mécanicien</h2>
+    </div>
+    <div class="flex gap-5 mb-8 mt-8">
+        <div class="flex flex-col gap-2" style="margin-left:10px ;width:200px;">
+            <label for="daterdv">Date du RDV</label>
+            <input type="date" pInputText id="daterdv" style="height: 32.5px;" />
+        </div>
+        <div class="flex flex-col gap-2" style="margin-left:10px ;width:115px;">
+            <label for="heuredebut">Heure debut</label>
+            <input type="time" pInputText id="heuredebut" style="height: 32.5px;" />
+        </div>
+        <div class="flex flex-col gap-2" style="margin-left:10px ;width:115px;">
+            <label for="heurefin">Heure fin</label>
+            <input type="time" pInputText id="heurefin" style="height: 32.5px;" />
+        </div>
+        <div class="flex flex-col gap-2">
+            <label for="immatricule">Immatricule</label>
+            <input pInputText id="immatricule" />
+        </div>
+        <div class="flex flex-col gap-2">
+            <label for="service">Service</label>
+            <p-select id="service" [options]="cities" [(ngModel)]="selectedCity"  optionLabel="name" class="w-full md:w-56" />
+        </div>
+        <div class="flex flex-col gap-2" style="margin-left:10px ;width:115px;">
+            <label for="daterdv" style="color: transparent;">.</label>
+            <p-button icon="pi pi-search" />
+        </div>
+    </div>
+
+    <div class="card-body">
+        <table class="table-auto w-full">
+            <thead class="bg-gray-700 hidden sm:table-header-group text-white">
+                <tr>
+                    <th class="px-6 py-4 text-center font-medium">📅 Date</th>
+                    <th class="px-6 py-4 text-center font-medium">🕒 Heure</th>
+                    <th class="px-6 py-4 text-center font-medium">🚗 Véhicule</th>
+                    <th class="px-6 py-4 text-center font-medium">🔑 Immatriculation</th>
+                    <th class="px-6 py-4 text-center font-medium">🛠️ Service</th>
+                    <th class="px-6 py-4 text-center font-medium">🎞️ Statue</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let rendezvous of rendezvousList" class=" border-gray-300 odd:bg-gray-100 even:bg-white hover:bg-gray-200 transition-all duration-200 cursor-pointer" (click)="goToPlaningMecanicien()">
+                    <td class="px-6 py-4 text-center font-medium">{{ rendezvous.dateRendezvous | date: 'dd/MM/yyyy' }}</td>
+                    <td class="px-6 py-4 text-center font-medium">{{ rendezvous.heureDebut }} → {{ rendezvous.heureFin }}</td>
+                    <td class="px-6 py-4 text-center font-medium">{{ rendezvous.typeVehicule }}</td>
+                    <td class="px-6 py-4 text-center font-medium">{{ rendezvous.immatriculation }}</td>
+                    <td class="px-6 py-4 text-center font-medium">{{ rendezvous.service }}</td>
+                    <td class="px-6 py-4 text-center">
+                        <div class="w-6 h-6 rounded-full mx-auto" [ngClass]="{
+                            'bg-green-500': rendezvous.status === 'Completed',
+                            'bg-yellow-500': rendezvous.status === 'Pending',
+                            'bg-red-500': rendezvous.status === 'Cancelled'
+                        }"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
