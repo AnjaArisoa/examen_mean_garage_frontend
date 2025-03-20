@@ -5,10 +5,10 @@ import { MenuItem } from 'primeng/api';
 import { LayoutMenuitemComponent } from '../layout-menuitem/layout-menuitem.component';
 
 @Component({
-  selector: 'app-layout-menu',
-  imports: [CommonModule, LayoutMenuitemComponent, RouterModule],
-  templateUrl: './layout-menu.component.html',
-  styleUrl: './layout-menu.component.scss'
+    selector: 'app-layout-menu',
+    imports: [CommonModule, LayoutMenuitemComponent, RouterModule],
+    templateUrl: './layout-menu.component.html',
+    styleUrl: './layout-menu.component.scss'
 })
 export class LayoutMenuComponent {
     model: MenuItem[] = [];
@@ -16,15 +16,20 @@ export class LayoutMenuComponent {
     ngOnInit() {
         this.model = [
             {
-                label: 'Home',
-                items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['page/dashboard'] }]
+                label: 'Planing Rendez vous',
+                items: [{ label: 'Planing RDV', icon: 'pi pi-fw pi-calendar', routerLink: ['page/planing/calendrier'] }]
             },
             {
                 label: 'Stock',
-                items: [{ label: 'Pieces', icon: 'pi pi-fw pi-heart', routerLink: ['page/stock/liste-stock'] },{ label: 'Commande Pieces', icon: 'pi pi-fw pi-heart', routerLink: ['page/stock/commande-pieces'] }]
-
+                items: [
+                    { label: 'Pieces', icon: 'pi pi-fw pi-cog', routerLink: ['page/stock/liste-stock'] },
+                    { label: 'Commande Pieces', icon: 'pi pi-fw pi-list', routerLink: ['page/stock/commande-pieces'] }
+                ]
             },
-
+            {
+                label: 'Statistiques',
+                items: [{ label: 'chart', icon: 'pi pi-fw pi-chart-line', routerLink: ['page/dashboard'] }]
+            },
 
         ];
     }

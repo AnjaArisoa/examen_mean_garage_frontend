@@ -13,6 +13,8 @@ import { ListeStockComponent } from './app/components/manager/page/stock/liste-s
 import { AvancementClientComponent } from './app/components/client/page/avancement-client/avancement-client.component';
 import { DetailAvancementComponent } from './app/components/client/page/detail-avancement/detail-avancement.component';
 import { CommandePiecesComponent } from './app/components/manager/page/stock/commande-pieces/commande-pieces.component';
+import { DevisGeneralClientComponent } from './app/components/client/page/devis-general-client/devis-general-client.component';
+import { PlanningRendezVousComponent } from './app/components/manager/component/planning-rendez-vous/planning-rendez-vous.component';
 
 export const appRoutes: Routes = [
     {
@@ -24,6 +26,7 @@ export const appRoutes: Routes = [
             {path:'page/dashboard',component:DashboardComponent},
             {path:'page/stock/liste-stock',component:ListeStockComponent},
             {path:'page/stock/commande-pieces',component:CommandePiecesComponent},
+            {path:'page/planing/calendrier',component:PlanningRendezVousComponent},
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
             { path: 'documentation', component: Documentation },
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
@@ -34,6 +37,7 @@ export const appRoutes: Routes = [
     { path: 'inscription', component: InscriptionComponent },
     { path: 'avancement', component: AvancementClientComponent },
     { path: 'detailavancement', component: DetailAvancementComponent },
+    { path: 'devisgeneral', component: DevisGeneralClientComponent },
     { path: 'product/:id', component: DetailServiceComponent },
     { path: 'notfound', component: Notfound },
     { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
