@@ -7,7 +7,7 @@
         <h2 class="text-xl font-bold text-gray-700 mb-4">📌 À faire</h2>
         <div class="space-y-2 min-h-[100px]">
             <div *ngFor="let task of todo" class="p-3 bg-white shadow-md rounded-md cursor-grab"
-                 draggable="true" (dragstart)="drag($event, task)">
+                 draggable="true" (dragstart)="drag($event, task)" >
                 {{ task }}
             </div>
         </div>
@@ -19,7 +19,7 @@
         <h2 class="text-xl font-bold text-gray-700 mb-4">🚧 En cours</h2>
         <div class="space-y-2 min-h-[100px]">
             <div *ngFor="let task of inProgress" class="p-3 bg-white shadow-md rounded-md cursor-grab"
-                 draggable="true" (dragstart)="drag($event, task)">
+                 draggable="true" (dragstart)="drag($event, task)" (click)="ModaleAjoutPiecesTache()">
                 {{ task }}
             </div>
         </div>
@@ -38,6 +38,38 @@
     </div>
 </div>
 </div>
+
+
+
+<p-dialog header="Demande de pieces" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Pieces</label>
+        <input pInputText id="username" class="flex-auto" autocomplete="off" />
+    </div>
+    <div class="flex items-center gap-4 mb-8">
+        <label for="email" class="font-semibold w-24">Type vehicule</label>
+        <input pInputText id="email" class="flex-auto" autocomplete="off" />
+    </div>
+    <div class="flex items-center gap-4 mb-8">
+        <label for="email" class="font-semibold w-24">Modele voiture</label>
+        <input pInputText id="email" class="flex-auto" autocomplete="off" />
+    </div>
+    <div class="flex items-center gap-4 mb-8">
+        <label for="email" class="font-semibold w-24">Type moteur</label>
+        <input pInputText id="email" class="flex-auto" autocomplete="off" />
+    </div>
+    <div class="flex items-center gap-4 mb-8">
+        <label for="email" class="font-semibold w-24">Nombre</label>
+        <input type="number" pInputText id="email" class="flex-auto" autocomplete="off" />
+    </div>
+    <div class="flex justify-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+        <p-button label="Save" (click)="visible = false" />
+    </div>
+</p-dialog>
+
+
+
 <style>
     div[draggable="true"] {
         transition: transform 0.2s;
