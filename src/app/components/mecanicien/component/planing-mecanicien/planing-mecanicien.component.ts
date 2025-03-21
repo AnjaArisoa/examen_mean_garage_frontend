@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { Button } from 'primeng/button';
+import { Dialog } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-planing-mecanicien',
-  imports: [CommonModule],
+  imports: [CommonModule,Dialog,Button,InputTextModule],
   templateUrl: './planing-mecanicien.component.html',
   styleUrl: './planing-mecanicien.component.scss'
 })
@@ -37,5 +40,13 @@ export class PlaningMecanicienComponent {
         this[targetList].push(this.draggedTask);
         this.draggedTask = null;
       }
+    }
+
+
+
+
+    visible: boolean = false;
+    ModaleAjoutPiecesTache() {
+        this.visible = true;
     }
 }
