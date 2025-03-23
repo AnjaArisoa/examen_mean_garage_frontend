@@ -17,6 +17,7 @@ import { DevisGeneralClientComponent } from './app/components/client/page/devis-
 import { PlanningRendezVousComponent } from './app/components/manager/component/planning-rendez-vous/planning-rendez-vous.component';
 import { ListeRendezVousComponent } from './app/components/mecanicien/component/liste-rendez-vous/liste-rendez-vous.component';
 import { PlaningMecanicienComponent } from './app/components/mecanicien/component/planing-mecanicien/planing-mecanicien.component';
+import { ServiceComponent } from './app/components/manager/page/service/service.component';
 
 export const appRoutes: Routes = [
     {
@@ -29,6 +30,7 @@ export const appRoutes: Routes = [
             {path:'page/stock/liste-stock',component:ListeStockComponent},
             {path:'page/stock/commande-pieces',component:CommandePiecesComponent},
             {path:'page/planing/calendrier',component:PlanningRendezVousComponent},
+            {path:'page/service',component:ServiceComponent},
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
             { path: 'documentation', component: Documentation },
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
