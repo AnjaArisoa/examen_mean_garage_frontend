@@ -5,7 +5,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { Dialog } from 'primeng/dialog';
-import { Select } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { SericesService } from '../../../../services/serices.service';
 
@@ -17,8 +16,7 @@ import { SericesService } from '../../../../services/serices.service';
       InputTextModule,
       InputNumberModule,
       FormsModule,
-      Dialog,
-      Select],
+      Dialog],
   templateUrl: './service-liste.component.html',
   styleUrl: './service-liste.component.scss'
 })
