@@ -17,11 +17,14 @@ import { DevisGeneralClientComponent } from './app/components/client/page/devis-
 import { PlanningRendezVousComponent } from './app/components/manager/component/planning-rendez-vous/planning-rendez-vous.component';
 import { ListeRendezVousComponent } from './app/components/mecanicien/component/liste-rendez-vous/liste-rendez-vous.component';
 import { PlaningMecanicienComponent } from './app/components/mecanicien/component/planing-mecanicien/planing-mecanicien.component';
+import { DiagnosticClientComponent } from './app/components/client/page/diagnostic-client/diagnostic-client.component';
+import { authGuard } from './app/guards/auth.guard';
 
 export const appRoutes: Routes = [
     {
         path: 'manager',
-        component: LayoutComponent,//sidebar
+        component: LayoutComponent,
+        canActivate: [authGuard],
         children: [//content
             { path: '', component: DashboardComponent },
             { path: 'crud', component: CrudComponent },
@@ -36,7 +39,8 @@ export const appRoutes: Routes = [
     },
     {
         path: 'mecanicien',
-        component: LayoutComponent,//sidebar
+        component: LayoutComponent,
+        canActivate: [authGuard],
         children: [//content
             { path: '', component: ListeRendezVousComponent },
             {path:'page/planing/liste-rendez-vous',component:ListeRendezVousComponent},
@@ -47,6 +51,7 @@ export const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'inscription', component: InscriptionComponent },
     { path: 'avancement', component: AvancementClientComponent },
+    { path: 'diagnostic', component: DiagnosticClientComponent },
     { path: 'detailavancement', component: DetailAvancementComponent },
     { path: 'devisgeneral', component: DevisGeneralClientComponent },
     { path: 'product/:id', component: DetailServiceComponent },

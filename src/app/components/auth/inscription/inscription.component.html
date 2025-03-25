@@ -11,7 +11,6 @@
                         style="border-radius: 53px">
                         <div class="text-center mb-8">
                             <img src="assets/img/logo.jpg" class="mb-8 shrink-0 mx-auto" style="width: 85px;">
-
                             <div class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4">Bienvenue à
                                 GAR'ANJA!</div>
                             <span class="text-muted-color font-medium">Veuiller entrer vos coordonnée</span>
@@ -45,7 +44,7 @@
                                 <span
                                     class="font-medium no-underline ml-2 text-right cursor-pointer text-primary">Se connecter</span>
                             </div>
-                            <p-button label="S'inscrire" styleClass="w-full" routerLink="/"></p-button>
+                            <p-button label="S'inscrire" styleClass="w-full" (click)="onRegister()"></p-button>
                         </div>
                     </div>
                 </div>
