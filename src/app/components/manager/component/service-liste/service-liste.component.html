@@ -1,29 +1,26 @@
-<div class="card " >
+<div class="card ">
     <div class="flex justify-end mb-3">
         <p-button (click)="showDialogNew()" icon="pi pi-plus" label="New" severity="info" />
     </div>
     <div class="flex mb-5 gap-3">
-        <input type="text" pInputText  variant="filled" placeholder="Nom Service"/>
-        <p-button icon="pi pi-search"/>
+        <input type="text" pInputText variant="filled" placeholder="Nom Service" />
+        <p-button icon="pi pi-search" />
     </div>
 
-    <p-table
-        [value]="services"
-        [paginator]="true"
-        [rows]="5"
-        [tableStyle]="{ 'min-width': '50rem' }"
-        [rowsPerPageOptions]="[5, 10, 20]"
-    >
+    <p-table [value]="services" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]">
         <ng-template #header>
             <tr>
                 <th style="width:25%">Nom Service</th>
                 <th style="width:25%">Description</th>
+                <th style="width:25%">Image</th>
             </tr>
         </ng-template>
         <ng-template #body let-service>
             <tr>
                 <td>{{service.nom}}</td>
                 <td>{{service.description}}</td>
+                <td> <img *ngIf="service.img" [src]="'http://localhost:5000' + service.img" width="30"  /></td>
             </tr>
         </ng-template>
     </p-table>
@@ -33,19 +30,21 @@
 <p-dialog header="Ajout Services" [modal]="true" [(visible)]="visiblenew" [style]="{ width: '25rem' }">
     <div class="flex items-center gap-4 mb-4">
         <label for="username" class="font-semibold w-24">Nom Service</label>
-        <input pInputText id="username" class="flex-auto" autocomplete="off"  name="nom"  [(ngModel)]="newService.nom" />
+        <input pInputText id="username" class="flex-auto" autocomplete="off" name="nom" [(ngModel)]="newService.nom" />
     </div>
     <div class="flex items-center gap-4 mb-4">
         <label for="username" class="font-semibold w-24">Description</label>
-        <input pInputText id="username" class="flex-auto" autocomplete="off" name="description" [(ngModel)]="newService.description" />
+        <input pInputText id="username" class="flex-auto" autocomplete="off" name="description"
+            [(ngModel)]="newService.description" />
     </div>
     <div class="flex items-center gap-4 mb-4">
         <label for="username" class="font-semibold w-24">Image</label>
-        <input pInputText id="username" class="flex-auto" autocomplete="off" name="img"  [(ngModel)]="newService.img"/>
+        <p-fileupload mode="basic" chooseLabel="img" chooseIcon="pi pi-upload" accept="image/*"
+            maxFileSize="1000000" (onSelect)="onFileSelected($event)">
+        </p-fileupload>
     </div>
     <div class="flex justify-end gap-2">
         <p-button label="Cancel" severity="secondary" (click)="visiblenew = false" />
         <p-button label="Save" (click)="visiblenew = false ; addService()" />
     </div>
 </p-dialog>
-

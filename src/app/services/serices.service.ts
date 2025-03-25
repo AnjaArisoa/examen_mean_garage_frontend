@@ -10,22 +10,22 @@ export interface Service {
     image?: string;
 }
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class SericesService {
 
     private apiUrl = `${environment.apiUrl}/Services`; //vous pouvez modifier le port
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
     getServices(): Observable<any> {
-      return this.http.get(this.apiUrl);
-      }
-    addService(article: any): Observable<any> {
-      return this.http.post(this.apiUrl, article);
-      }
+        return this.http.get(this.apiUrl);
+    }
+    addService(serviceData: FormData): Observable<any> {
+        return this.http.post(this.apiUrl, serviceData);
+    }
     updateService(id: string, article: any): Observable<any> {
-      return this.http.put(`${this.apiUrl}/${id}`, article);
-      }
+        return this.http.put(`${this.apiUrl}/${id}`, article);
+    }
     deleteService(id: string): Observable<any> {
-      return this.http.delete(`${this.apiUrl}/${id}`);
-      }
+        return this.http.delete(`${this.apiUrl}/${id}`);
+    }
 }

@@ -6,20 +6,16 @@ import { GalleriaModule } from 'primeng/galleria';
 import { ImageModule } from 'primeng/image';
 import { TagModule } from 'primeng/tag';
 import { PhotoService } from '../../../../pages/service/photo.service';
-import { Product, ProductService } from '../../../../pages/service/product.service';
+import { SericesService } from '../../../../services/serices.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-service-client',
   imports: [CommonModule, CarouselModule, ButtonModule, GalleriaModule, ImageModule, TagModule],
   templateUrl: './service-client.component.html',
-  styleUrl: './service-client.component.scss',
-  providers: [ProductService, PhotoService]
+  styleUrl: './service-client.component.scss'
 })
 export class ServiceClientComponent implements OnInit{
-    products!: Product[];
-
-    images!: any[];
 
     galleriaResponsiveOptions: any[] = [
         {
@@ -59,21 +55,19 @@ export class ServiceClientComponent implements OnInit{
     ];
 
     constructor(
-        private productService: ProductService,
-        private photoService: PhotoService,
+        private servicesService: SericesService,
         private router: Router
     ) {}
 
-    ngOnInit() {
-        this.productService.getProductsSmall().then((products) => {
-            this.products = products;
-        });
-
-        this.photoService.getImages().then((images) => {
-            this.images = images;
-        });
-    }
-    goToProductDetail(productId: number) {
-        this.router.navigate(['/product', productId]);
+    services: any[] = [];
+        ngOnInit(): void {
+            this.loadArticles();
+        }
+        loadArticles(): void {
+            this.servicesService.getServices().subscribe(data => this.services =
+                data);
+        }
+    goToProductDetail(serviceid: string) {
+        this.router.navigate(['/product', serviceid]);
     }
 }
