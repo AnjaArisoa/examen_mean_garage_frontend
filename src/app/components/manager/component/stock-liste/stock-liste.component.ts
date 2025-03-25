@@ -7,48 +7,56 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { Select } from 'primeng/select';
 import { Dialog } from 'primeng/dialog';
+import { StockService } from '../../../../services/stock/stock.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-stock-liste',
-  imports: [
+    selector: 'app-stock-liste',
+    imports: [
         CommonModule,
         TableModule,
         ButtonModule,
         InputTextModule,
         InputNumberModule,
         Select,
-        Dialog
-  ],
-  templateUrl: './stock-liste.component.html',
-  styleUrl: './stock-liste.component.scss'
+        Dialog,
+        FormsModule
+    ],
+    templateUrl: './stock-liste.component.html',
+    styleUrl: './stock-liste.component.scss'
 })
 export class StockListeComponent {
-    donnee:any[]=[];
-    test={nom :" Turbo-compresseur",modele:"BMW M340i xDrive",moteur:"Diesel",prix:"12000MGA",nombre:"2",type:"SUV"};
+    donnee: any[] = [];
     modele = [
         { name: "Diesel" },
         { name: "Essence" }
-      ];
-      type = [
+    ];
+    type = [
         { name: "SUV" },
         { name: "4x4" },
         { name: "Plaisir" },
         { name: "Camion" },
-      ];
+    ];
+    visible: boolean = false;
 
-    constructor() {
-        this.ajouterTest();
-      }
-
-      ajouterTest() {
-        this.donnee.push(this.test);
-        console.log(this.donnee);
-      }
-      visible: boolean = false;
-
-      showDialog() {
-          this.visible = true;
-      }
+    selectedItem: any = {};
+    constructor(private StockService: StockService) {
+    }
+    ngOnInit(): void {
+        this.loadArticles();
+    }
+     loadArticles(): void {
+        this.StockService.getStocks().subscribe(response => {
+            console.log("Données reçues :", response); // Vérification des données
+            if (response.success && response.data) {
+                this.donnee = response.data; // Stocker uniquement `data`, qui est un tableau
+            }
+        });
+    }
+    showDialog(item: any) {
+        this.selectedItem = item; // Stocke l'élément cliqué
+        this.visible = true;
+    }
 
 
 }
