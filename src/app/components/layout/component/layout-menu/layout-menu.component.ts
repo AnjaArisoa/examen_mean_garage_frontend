@@ -45,8 +45,8 @@ export class LayoutMenuComponent {
               items: [{ label: 'chart', icon: 'pi pi-fw pi-chart-line', routerLink: ['page/dashboard'] }]
             },
             {
-                label: 'Service',
-                items: [{ label: 'Liste', icon: 'pi pi-fw pi-chart-line', routerLink: ['page/service'] }]
+                label: 'Parametres',
+                items: [{ label: 'services', icon: 'pi pi-fw pi-wrench', routerLink: ['page/service'] }]
               },
           ];
         }
