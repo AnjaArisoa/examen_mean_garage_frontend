@@ -25,7 +25,7 @@ export const appRoutes: Routes = [
     {
         path: 'manager',
         component: LayoutComponent,
-        canActivate: [authGuard],
+        //canActivate: [authGuard],
         children: [//content
             { path: '', component: DashboardComponent },
             { path: 'crud', component: CrudComponent },

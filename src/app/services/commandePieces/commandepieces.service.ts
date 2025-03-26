@@ -17,8 +17,11 @@ export class CommandepiecesService {
     addCommandePiece(piece: any): Observable<any> {
         return this.http.post(this.apiUrl, piece);
     }
+    deleteCommandePiece(id:string): Observable<any> {
+        return this.http.delete(`${this.apiUrl}/${id}`);
+    }
 
-    check_commande(id: any,arrive:any): Observable<any> {
+    check_commande(id: string,arrive:any): Observable<any> {
         return this.http.post(`${this.apiUrl}/check_commande/${id}`,arrive);
     }
 }
