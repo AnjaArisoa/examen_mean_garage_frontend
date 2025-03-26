@@ -28,4 +28,7 @@ export class SericesService {
     deleteService(id: string): Observable<any> {
         return this.http.delete(`${this.apiUrl}/${id}`);
     }
+    getServicesTache(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.apiUrl}/services-taches`);
+      }
 }

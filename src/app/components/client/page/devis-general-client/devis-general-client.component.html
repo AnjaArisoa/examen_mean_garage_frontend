@@ -5,28 +5,30 @@
         <div class="card" style="background-color:#97D5FF;">
             <div class="p-6 bg-white rounded-lg shadow-lg w-full">
                 <h3 class="text-xl font-semibold text-center mb-6 text-gray-800">📑 CREATION DE DEVIS</h3>
+
                 <!-- Wrapper des services -->
                 <div class="flex flex-wrap gap-4">
-                    <div *ngFor="let s of service" class="flex-1 min-w-[250px]">
+                    <div *ngFor="let service of servicestaches" class="flex-1 min-w-[250px]">
                         <!-- Service -->
                         <div class="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow-sm cursor-pointer">
                             <div class="flex items-center gap-3">
-                                <span class="font-medium text-gray-800">{{ s }}</span>
-                                <input type="checkbox" class="custom-checkbox" [(ngModel)]="servicesSelectionnes[s]" (change)="toggleSelectionService(s)">
+                                <span class="font-medium text-gray-800">{{ service.nom }}</span>
+                                <input type="checkbox" class="custom-checkbox" [(ngModel)]="servicesSelectionnes[service.nom]" (change)="toggleSelectionService(service.nom)">
                             </div>
                         </div>
 
                         <!-- Liste des tâches -->
                         <div class="mt-2 grid gap-2">
-                            <div *ngFor="let tache of getTachesForService(s)"
+                            <div *ngFor="let tache of getTachesForService(service.nom)"
                                  class="flex items-center gap-3 p-3 bg-white rounded-lg shadow-md transition hover:bg-gray-50">
-                                <input type="checkbox" class="custom-checkbox" [(ngModel)]="tache.selected" (change)="onTacheSelectionne(s)">
+                                <input type="checkbox" class="custom-checkbox" [(ngModel)]="tache.selected" (change)="onTacheSelectionne(service.nom)">
                                 <span class="text-gray-700">{{ tache.name }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="col-span-12 text-center mt-5">
                 <button style="font-size: 17px;" pButton pRipple label="Devis" icon="pi pi-download" ></button>
                 <button style="font-size: 17px; margin-left:20px; color:rgb(91, 91, 91); background-color:rgb(254, 254, 113); border-color:rgb(254, 254, 113)"
