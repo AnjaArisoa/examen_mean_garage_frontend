@@ -57,7 +57,7 @@ export class StockListeComponent {
         });
     }
     saveCommande(): void {
-        if (this.selectedItem && this.selectedItem.stockDifference > 0) {
+        if (this.selectedItem ) {
           const commande = {
             pieces: this.selectedItem._id,
             nombre: this.newCommande.stockDifference
