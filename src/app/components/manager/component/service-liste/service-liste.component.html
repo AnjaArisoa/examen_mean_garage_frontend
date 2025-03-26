@@ -2,10 +2,6 @@
     <div class="flex justify-end mb-3">
         <p-button (click)="showDialogNew()" icon="pi pi-plus" label="New" severity="info" />
     </div>
-    <div class="flex mb-5 gap-3">
-        <input type="text" pInputText variant="filled" placeholder="Nom Service" />
-        <p-button icon="pi pi-search" />
-    </div>
 
     <p-table [value]="services" [paginator]="true" [rows]="5" [tableStyle]="{ 'min-width': '50rem' }"
         [rowsPerPageOptions]="[5, 10, 20]">
