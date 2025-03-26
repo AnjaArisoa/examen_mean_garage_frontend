@@ -218,5 +218,8 @@ export class ListeCommandePiecesComponent implements OnInit {
         this.nombreArrive = 0;
         this.visiblecheck = true;
     }
+  formatDate(dateString:any) {
+    return dateString.replace('T', ' ').replace('Z', '');
+  }
 
 }

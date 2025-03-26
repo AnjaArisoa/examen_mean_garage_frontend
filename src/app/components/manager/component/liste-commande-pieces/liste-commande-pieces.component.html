@@ -2,13 +2,13 @@
     <div class="flex justify-end mb-3">
         <p-button (click)="showDialogNew()" icon="pi pi-plus" label="New" severity="info" />
     </div>
-    <div class="flex mb-5 gap-3">
+    <!-- <div class="flex mb-5 gap-3">
         <input type="text" pInputText  variant="filled" placeholder="Nom Piece"/>
         <input type="text" pInputText  variant="filled" placeholder="Modele Voiture"/>
         <p-select [options]="typeV"  placeholder="Type voiture" [editable]="true" optionLabel="name" class="w-full md:w-56" />
         <p-select [options]="typeM"  placeholder="Type moteur" [editable]="true" optionLabel="name" class="w-full md:w-56" />
         <p-button icon="pi pi-search"/>
-    </div>
+    </div> -->
 
     <p-table
         [value]="donnee"
@@ -22,8 +22,10 @@
                 <th style="width:25%">Reference</th>
                 <th style="width:25%">Nom Piece</th>
                 <th style="width:25%">Marque vehicule</th>
-                <th style="width:25%">Modele</th>
+                <th style="width:25%">Modele Vehicule</th>
+                <th style="width:25%">Categorie Vehicule</th>
                 <th style="width:25%">Nombre</th>
+                <th style="width:25%">Date</th>
             </tr>
         </ng-template>
         <ng-template #body let-donne>
@@ -32,7 +34,9 @@
                 <td>{{ donne.pieces.nomPiece }}</td>
                 <td>{{ donne.pieces.marqueVehicule.marqueVehicule }}</td>
                 <td>{{ donne.pieces.modeleVehicule.modeleVehicule }}</td>
+                <td>{{ donne.pieces.categorieVehicule.typeVehicule.nomTypeVehicule}}/{{ donne.pieces.categorieVehicule.typeMoteur.nomTypeMoteur}}</td>
                 <td>{{ donne.nombre }}</td>
+                <td>{{ formatDate(donne.createdAt) }}</td>
                 <td class="flex gap-2">
                     <p-button (click)="showDialogCheck(donne)" icon="pi pi-check" />
                     <p-button (click)="deleteCommande(donne._id)" icon="pi pi-trash" severity="danger" />

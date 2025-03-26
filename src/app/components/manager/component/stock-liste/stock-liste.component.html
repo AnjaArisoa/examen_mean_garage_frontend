@@ -1,11 +1,49 @@
 <div class="card " >
     <div class="flex mb-5 gap-3">
-        <input type="text" pInputText  variant="filled" placeholder="Nom Piece"/>
-        <input type="text" pInputText  variant="filled" placeholder="Modele Voiture"/>
-        <p-select [options]="type"  placeholder="Type voiture" [editable]="true" optionLabel="name" class="w-full md:w-56" />
-        <p-select [options]="modele"  placeholder="Type moteur" [editable]="true" optionLabel="name" class="w-full md:w-56" />
-        <p-button icon="pi pi-search"/>
+        <input
+            type="text"
+            pInputText
+            variant="filled"
+            placeholder="Nom Piece"
+            [(ngModel)]="nomPiece"
+        />
+        <input
+            type="text"
+            pInputText
+            variant="filled"
+            placeholder="Reference"
+            [(ngModel)]="reference"
+        />
+        <p-select
+            [options]="marque"
+            placeholder="Marque Vehicule"
+            [editable]="true"
+            optionLabel="name"
+             optionValue="id"
+            class="w-full md:w-56"
+            [(ngModel)]="marqueVehicule"
+        />
+        <p-select
+            [options]="modele"
+            placeholder="Modele Vehicule"
+            [editable]="true"
+            optionLabel="name"
+             optionValue="id"
+            class="w-full md:w-56"
+            [(ngModel)]="modeleVehicule"
+        />
+        <p-select
+            [options]="categorie"
+            placeholder="Categorie Vehicule"
+            [editable]="true"
+            optionLabel="name"
+             optionValue="id"
+            class="w-full md:w-56"
+            [(ngModel)]="catv"
+        />
+        <p-button icon="pi pi-search" (click)="loadArticles()"></p-button>
     </div>
+
     <p-table
         [value]="donnee"
         [paginator]="true"
@@ -19,6 +57,7 @@
                 <th style="width:25%">Nom Piece</th>
                 <th style="width:25%">Marque vehicule</th>
                 <th style="width:25%">Modele</th>
+                <th style="width:25%">Categorie Vehicule</th>
                 <th style="width:25%">Prix</th>
                 <th style="width:25%">Nombre</th>
             </tr>
@@ -29,6 +68,7 @@
                 <td>{{ donne.nomPiece }}</td>
                 <td>{{ donne.marqueDetails?.marqueVehicule }}</td>
                 <td>{{ donne.modeleDetails?.modeleVehicule }}</td>
+                <td>{{ donne.typeVehiculeDetails?.nomTypeVehicule }}{{"/"}}{{ donne.typeMoteurDetails?.nomTypeMoteur }}</td>
                 <td>{{ donne.prix }}</td>
                 <td>{{ donne.stockDifference }}</td>
                 <td>

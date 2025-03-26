@@ -11,6 +11,12 @@ import { StockService } from '../../../../services/stock/stock.service';
 import { FormsModule } from '@angular/forms';
 import { CommandepiecesService } from '../../../../services/commandePieces/commandepieces.service';
 import { MessageService } from 'primeng/api';
+import { PiecesService } from '../../../../services/pieces/pieces.service';
+import { ModelevehiculeService } from '../../../../services/modelevehiule/modelevehicule.service';
+import { MarquevehiculeService } from '../../../../services/marquevehicule/marquevehicule.service';
+import { CategorievehiculeService } from '../../../../services/categorievehicule/categorievehicule.service';
+import { TypemoteurService } from '../../../../services/typemoteur/typemoteur.service';
+import { TypevehiculeService } from '../../../../services/typevehicule/typevehicule.service';
 
 @Component({
     selector: 'app-stock-liste',
@@ -30,30 +36,100 @@ import { MessageService } from 'primeng/api';
 })
 export class StockListeComponent {
     donnee: any[] = [];
-    modele = [
-        { name: "Diesel" },
-        { name: "Essence" }
-    ];
-    type = [
-        { name: "SUV" },
-        { name: "4x4" },
-        { name: "Plaisir" },
-        { name: "Camion" },
-    ];
+    modele:any[]=[];
+    marque:any[]=[];
+    categorie:any[]=[];
+    typeV:any[]=[];
+    typeM:any[]=[];
     visible: boolean = false;
     newCommande: any = { stockDifference: 1 };
     selectedItem: any = {};
-    constructor(private StockService: StockService,private commandePieces:CommandepiecesService,private messageService: MessageService,) {
+    nomPiece: string = '';
+  reference: string = '';
+  modeleVehicule: string = '';
+  marqueVehicule: string = '';
+    catv:string="";
+    constructor(private StockService: StockService,private commandePieces:CommandepiecesService,private messageService: MessageService, private modelevehiculeService: ModelevehiculeService,private marquevehiculeService:MarquevehiculeService,private categorieVehicule:CategorievehiculeService,private typeMoteur:TypemoteurService,private typevehicule:TypevehiculeService,private pieces:PiecesService) {
     }
     ngOnInit(): void {
         this.loadArticles();
+        this.loadCategorie();
+        this.loadMarque();
+        this.loadModele();
+        this.loadCategorie();
     }
-     loadArticles(): void {
-        this.StockService.getStocks().subscribe(response => {
-            //console.log("Données reçues :", response); // Vérification des données
-            if (response.success && response.data) {
-                this.donnee = response.data; // Stocker uniquement `data`, qui est un tableau
-            }
+    loadArticles(): void {
+        this.StockService.getStocks(this.nomPiece, this.reference, this.modeleVehicule, this.marqueVehicule, this.catv).subscribe(response => {
+          if (response.success && response.data) {
+            this.donnee = response.data;
+            this.nomPiece = '';
+            this.reference = '';
+            this.modeleVehicule = '';
+            this.marqueVehicule = '';
+            this.catv = '';
+          }
+        });
+      }
+
+    loadModele(): void {
+        this.modelevehiculeService.getModeleVehicule().subscribe(data => {
+            console.log("Modèle avant transformation:", data);
+
+            this.modele = data.map((item: any) => ({
+                id: item._id,
+                name: item.modeleVehicule // Assure-toi que c'est le bon champ
+            }));
+
+            console.log("Modèle après transformation:", this.modele);
+        });
+    }
+
+    loadMarque(): void {
+        this.marquevehiculeService.getMarqueVehicule().subscribe(data => {
+            console.log("Marque avant transformation:", data);
+
+            this.marque = data.map((item: any) => ({
+                id: item._id,
+                name:item.marqueVehicule // Vérifie si c'est bien la bonne clé
+            }));
+
+            console.log("Marque après transformation:", this.marque);
+        });
+    }
+
+    loadCategorie(): void {
+        this.categorieVehicule.getCategorieVehicule().subscribe(data => {
+            console.log("Catégorie avant transformation:", data);
+
+            this.categorie = data.map((item: any) => ({
+                id: item._id,
+                name: item.typeVehicule.nomTypeVehicule+"/"+item.typeMoteur.nomTypeMoteur // Vérifie le bon champ ici
+            }));
+
+            console.log("Catégorie après transformation:", this.categorie);
+        });
+    }
+
+     loadTypeM(): void {
+        this.typeMoteur.getTypeMoeteur().subscribe(data => {
+            //console.log("Type Moteur avant transformation:", data);
+            this.typeM = data.map((item: any) => ({
+                id: item._id,
+                name: item.nomTypeMoteur
+            }));
+
+            //console.log("Type Moteur après transformation:", this.typeM);
+        });
+    }
+    loadTypeV(): void {
+        this.typevehicule.getTypeVehicule().subscribe(data => {
+            //console.log("Type Véhicule avant transformation:", data);
+            this.typeV = data.map((item: any) => ({
+                id: item._id,
+                name: item.nomTypeVehicule
+            }));
+
+            //console.log("Type Véhicule après transformation:", this.typeV);
         });
     }
     saveCommande(): void {
