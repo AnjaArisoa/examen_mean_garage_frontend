@@ -4,25 +4,29 @@
             class="py-6 px-6 mx-0 md:mx-12 lg:mx-20 lg:px-20 flex items-center justify-between fix lg:static" />
         <div class="card" style="background-color:#97D5FF;">
             <div class="p-6 bg-white rounded-lg shadow-lg w-full">
-                <h3 class="text-xl font-semibold text-center mb-6 text-gray-800">📑 CREATION DE DEVIS</h3>
+                <h3 class="text-xl font-semibold text-center mb-6 text-gray-800">📑 FAIRE UN DEVIS</h3>
 
                 <!-- Wrapper des services -->
                 <div class="flex flex-wrap gap-4">
                     <div *ngFor="let service of servicestaches" class="flex-1 min-w-[250px]">
                         <!-- Service -->
-                        <div class="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow-sm cursor-pointer">
+                        <div
+                            class="flex justify-between items-center p-4 bg-gray-100 rounded-lg shadow-sm cursor-pointer">
                             <div class="flex items-center gap-3">
                                 <span class="font-medium text-gray-800">{{ service.nom }}</span>
-                                <input type="checkbox" class="custom-checkbox" [(ngModel)]="servicesSelectionnes[service.nom]" (change)="toggleSelectionService(service.nom)">
+                                <input type="checkbox" class="custom-checkbox"
+                                    [(ngModel)]="servicesSelectionnes[service.nom]"
+                                    (change)="toggleSelectionService(service.nom)">
                             </div>
                         </div>
 
                         <!-- Liste des tâches -->
                         <div class="mt-2 grid gap-2">
                             <div *ngFor="let tache of getTachesForService(service.nom)"
-                                 class="flex items-center gap-3 p-3 bg-white rounded-lg shadow-md transition hover:bg-gray-50">
-                                <input type="checkbox" class="custom-checkbox" [(ngModel)]="tache.selected" (change)="onTacheSelectionne(service.nom)">
-                                <span class="text-gray-700">{{ tache.name }}</span>
+                                class="flex items-center gap-3 p-3 bg-white rounded-lg shadow-md transition hover:bg-gray-50">
+                                <input type="checkbox" class="custom-checkbox" [(ngModel)]="tache.selected"
+                                    (change)="onTacheSelectionne(tache.selected)">
+                                <span class="text-gray-700 cursor-pointer" (click)="modifiernombrepiece(tache.id)">{{ tache.name }}</span>
                             </div>
                         </div>
                     </div>
@@ -30,9 +34,10 @@
             </div>
 
             <div class="col-span-12 text-center mt-5">
-                <button style="font-size: 17px;" pButton pRipple label="Devis" icon="pi pi-download" ></button>
-                <button style="font-size: 17px; margin-left:20px; color:rgb(91, 91, 91); background-color:rgb(254, 254, 113); border-color:rgb(254, 254, 113)"
-                pButton pRipple label="Rendez-vous" icon="pi pi-clock"></button>
+                <button style="font-size: 17px;" pButton pRipple label="Devis" icon="pi pi-download" (click)="getDevis()"></button>
+                <button
+                    style="font-size: 17px; margin-left:20px; color:rgb(91, 91, 91); background-color:rgb(254, 254, 113); border-color:rgb(254, 254, 113)"
+                    pButton pRipple label="Rendez-vous" icon="pi pi-clock" (click)="makeRdv()"></button>
             </div>
         </div>
 
@@ -61,3 +66,50 @@
         background-color: #f9fafb;
     }
 </style>
+<p-dialog header="Veuillez entrer les données" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <!-- Affichage du message s'il n'y a pas de pièces -->
+    <div *ngIf="messagePieces" class="text-black-500 font-semibold mb-4">
+        {{ messagePieces }}
+    </div>
+
+    <!-- Liste des pièces si elles existent -->
+    <div *ngIf="tachepieces && tachepieces.length > 0">
+        <div *ngFor="let piece of tachepieces" class="flex items-center gap-4 mb-4">
+            <label for="username" class="font-semibold w-24">{{ piece.pieces.nomPiece }}</label>
+            <!-- Champ de texte pour afficher le nombre de pièces -->
+            <input pInputText [(ngModel)]="piece.nombre" id="username" class="flex-auto" autocomplete="off"
+                type="number" min="1" [disabled]="piece.modifiable === 1" />
+        </div>
+    </div>
+
+    <div class="flex justify-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+        <p-button *ngIf="!messagePieces" label="Save" (click)="visible = false" />
+    </div>
+</p-dialog>
+<p-dialog header="Choisissez le nombre de mecanicien" [modal]="true" [(visible)]="visiblenewdevis" [style]="{ width: '25rem' }">
+    <span class="p-text-secondary block mb-8">NB: le nombre de mécanicien choisis peut affecter le prix et diminuer le duré</span>
+    <span class="p-text-primary block mb-8">MAX MECANICIEN:</span>
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Mecanicien</label>
+        <input type="number" pInputText id="username" class="flex-auto" autocomplete="off" />
+    </div>
+    <div class="flex justify-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visiblenewdevis = false" />
+        <p-button label="Save" (click)="visiblenewdevis = false;adddevis()" />
+    </div>
+</p-dialog>
+<p-dialog header="Entrer les informations du RDV" [modal]="true" [(visible)]="visiblerdv" [style]="{ width: '25rem' }">
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Date:</label>
+        <input type="date" pInputText id="username" class="flex-auto" autocomplete="off" />
+    </div>
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Heure:</label>
+        <input type="time" pInputText id="username" class="flex-auto" autocomplete="off" />
+    </div>
+    <div class="flex justify-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visiblerdv = false" />
+        <p-button label="Save" (click)="visiblerdv = false" />
+    </div>
+</p-dialog>

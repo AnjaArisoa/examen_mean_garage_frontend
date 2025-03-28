@@ -56,7 +56,6 @@ export class StockListeComponent {
         this.loadCategorie();
         this.loadMarque();
         this.loadModele();
-        this.loadCategorie();
     }
     loadArticles(): void {
         this.StockService.getStocks(this.nomPiece, this.reference, this.modeleVehicule, this.marqueVehicule, this.catv).subscribe(response => {

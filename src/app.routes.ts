@@ -4,7 +4,7 @@ import { DashboardComponent } from './app/components/manager/page/dashboard/dash
 import { Documentation } from './app/pages/documentation/documentation';
 import { Landing } from './app/pages/landing/landing';
 import { Notfound } from './app/pages/notfound/notfound';
-import {CrudComponent} from './app/components/crud/crud.component';
+import { CrudComponent } from './app/components/crud/crud.component';
 import { ClientComponent } from './app/components/client/client/client.component';
 import { DetailServiceComponent } from './app/components/client/page/detail-service/detail-service.component';
 import { LoginComponent } from './app/components/auth/login/login.component';
@@ -25,15 +25,16 @@ export const appRoutes: Routes = [
     {
         path: 'manager',
         component: LayoutComponent,
-        //canActivate: [authGuard],
-        children: [//content
+        canActivate: [authGuard],
+        data: { role: 'manager' },
+        children: [
             { path: '', component: DashboardComponent },
             { path: 'crud', component: CrudComponent },
-            {path:'page/dashboard',component:DashboardComponent},
-            {path:'page/stock/liste-stock',component:ListeStockComponent},
-            {path:'page/stock/commande-pieces',component:CommandePiecesComponent},
-            {path:'page/planing/calendrier',component:PlanningRendezVousComponent},
-            {path:'page/service',component:ServiceComponent},
+            { path: 'page/dashboard', component: DashboardComponent },
+            { path: 'page/stock/liste-stock', component: ListeStockComponent },
+            { path: 'page/stock/commande-pieces', component: CommandePiecesComponent },
+            { path: 'page/planing/calendrier', component: PlanningRendezVousComponent },
+            { path: 'page/service', component: ServiceComponent },
             { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
             { path: 'documentation', component: Documentation },
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
@@ -43,20 +44,31 @@ export const appRoutes: Routes = [
         path: 'mecanicien',
         component: LayoutComponent,
         canActivate: [authGuard],
-        children: [//content
+        data: { role: 'mecanicien' },
+        children: [
             { path: '', component: ListeRendezVousComponent },
-            {path:'page/planing/liste-rendez-vous',component:ListeRendezVousComponent},
-            {path:'planing/rendez-vous',component:PlaningMecanicienComponent}
+            { path: 'page/planing/liste-rendez-vous', component: ListeRendezVousComponent },
+            { path: 'planing/rendez-vous', component: PlaningMecanicienComponent }
         ]
     },
-    { path: '', component: ClientComponent },
+    { path: '',component: ClientComponent},
     { path: 'login', component: LoginComponent },
     { path: 'inscription', component: InscriptionComponent },
-    { path: 'avancement', component: AvancementClientComponent },
-    { path: 'diagnostic', component: DiagnosticClientComponent },
-    { path: 'detailavancement', component: DetailAvancementComponent },
-    { path: 'devisgeneral', component: DevisGeneralClientComponent },
-    { path: 'product/:id', component: DetailServiceComponent },
+    { path: 'avancement', component: AvancementClientComponent
+        , canActivate: [authGuard],data: { role: 'client' }
+     },
+    { path: 'diagnostic', component: DiagnosticClientComponent
+        , canActivate: [authGuard],data: { role: 'client' }
+     },
+    { path: 'detailavancement', component: DetailAvancementComponent
+        , canActivate: [authGuard],data: { role: 'client' }
+     },
+    { path: 'devis/:categorieVehicule/:modeleVehicule', component: DevisGeneralClientComponent
+        , canActivate: [authGuard],data: { role: 'client' }
+     },
+    { path: 'product/:id', component: DetailServiceComponent
+        , canActivate: [authGuard],data: { role: 'client' }
+     },
     { path: 'notfound', component: Notfound },
     { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
     { path: '**', redirectTo: '/notfound' }

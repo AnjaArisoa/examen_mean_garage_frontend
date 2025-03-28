@@ -24,6 +24,7 @@ export class AuthService {
                 if (response.token && response.role) {
                     this.storeToken(response.token);
                     localStorage.setItem('role', response.role); // Stocker le rôle
+                    localStorage.setItem('user', response.id); // Stocker l'id
                 }
             })
         );
@@ -48,10 +49,15 @@ export class AuthService {
     getUserRole(): string | null {
         return localStorage.getItem('role');
     }
+    // Récupérer le rôle de l'utilisateur
+    getUserId(): string | null {
+        return localStorage.getItem('user');
+    }
 
     // Déconnexion
     logout(): void {
         localStorage.removeItem('token');
         localStorage.removeItem('role');
+        localStorage.removeItem('user');
     }
 }

@@ -33,7 +33,7 @@
             </a>
         </li>
         <li>
-            <a  pRipple class="px-0 py-4 text-surface-900 dark:text-surface-0 font-medium text-xl" routerLink="/devisgeneral">
+            <a  pRipple class="px-0 py-4 text-surface-900 dark:text-surface-0 font-medium text-xl" (click)="showDialog()">
                 <span>Faire un devis</span>
             </a>
         </li>
@@ -48,3 +48,35 @@
         <button pButton pRipple label="register" routerLink="/inscription" [rounded]="true" ></button>
     </div>
 </div>
+
+
+<p-dialog header="Entrer ces informations" [modal]="true" [(visible)]="visible" [style]="{ height: '30rem', width: '30rem' }">
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Categorie vehicule</label>
+        <p-select id="username"
+            [options]="categorie"
+            placeholder="Categorie Vehicule"
+            [editable]="true"
+            optionLabel="name"
+             optionValue="id"
+            class="w-full"
+            [(ngModel)]="catv"
+        />
+    </div>
+    <div class="flex items-center gap-4 mb-8">
+        <label for="email" class="font-semibold w-24">Modele vehicule</label>
+        <p-select id="email"
+        [options]="modele"
+        placeholder="Modele Vehicule"
+        [editable]="true"
+        optionLabel="name"
+         optionValue="id"
+        class="w-full"
+        [(ngModel)]="modeleVehicule"
+    />
+    </div>
+    <div class="flex justify-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+        <p-button label="Save" (click)="visible = false;getPieces()" />
+    </div>
+</p-dialog>
