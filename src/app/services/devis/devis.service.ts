@@ -16,4 +16,7 @@ export class DevisService {
     getLastDevis(id: string): Observable<any> {
         return this.http.get(`${this.apiUrl}/last/${id}`);
     }
+    updateDevis(id:string,donne:any):Observable<any>{
+        return this.http.put(`${this.apiUrl}/${id}`,donne);
+    }
 }
