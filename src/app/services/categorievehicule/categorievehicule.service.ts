@@ -16,5 +16,9 @@ export class CategorievehiculeService {
            addCetegorieVehicule(piece: any): Observable<any> {
                return this.http.post(this.apiUrl, piece);
            }
+           getByCategorie(id:string): Observable<any> {
+            return this.http.get(`${this.apiUrl}/getByCategorie/${id}`);
+            }
+
   }
 
