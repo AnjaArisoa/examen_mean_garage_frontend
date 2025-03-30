@@ -60,4 +60,8 @@ export class AuthService {
         localStorage.removeItem('role');
         localStorage.removeItem('user');
     }
+    //get user by id
+    getUserById(id: string): Observable<any>{
+        return this.http.get(`${this.apiUrl}/utilisateur/${id}`);
+    }
 }
