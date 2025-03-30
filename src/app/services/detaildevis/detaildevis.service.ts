@@ -23,4 +23,7 @@ export class DetaildevisService {
         return this.http.get(`${this.apiUrl}/getByDetailDevis/${id}`);
     }
 
+    getDetailDevisByIdDevis(id: string): Observable<any>{
+        return this.http.get(`${this.apiUrl}/detaildevis/${id}`);
+    }
 }

@@ -25,8 +25,8 @@ export const appRoutes: Routes = [
     {
         path: 'manager',
         component: LayoutComponent,
-        canActivate: [authGuard],
-        data: { role: 'manager' },
+        // canActivate: [authGuard],
+        // data: { role: 'manager' },
         children: [
             { path: '', component: DashboardComponent },
             { path: 'crud', component: CrudComponent },

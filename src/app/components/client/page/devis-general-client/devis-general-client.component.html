@@ -22,11 +22,15 @@
 
                         <!-- Liste des tâches -->
                         <div class="mt-2 grid gap-2">
-                            <div *ngFor="let tache of getTachesForService(service.nom)"
+                            <div *ngFor="let tache of tachesParService[service.nom]"
                                 class="flex items-center gap-3 p-3 bg-white rounded-lg shadow-md transition hover:bg-gray-50">
+
                                 <input type="checkbox" class="custom-checkbox" [(ngModel)]="tache.selected"
                                     (change)="onTacheSelectionne(tache.selected)">
-                                <span class="text-gray-700 cursor-pointer" (click)="modifiernombrepiece(tache.id)">{{ tache.name }}</span>
+
+                                <span class="text-gray-700 cursor-pointer" (click)="modifiernombrepiece(tache.id)">
+                                    {{ tache.name }}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -34,7 +38,8 @@
             </div>
 
             <div class="col-span-12 text-center mt-5">
-                <button style="font-size: 17px;" pButton pRipple label="Devis" icon="pi pi-download" (click)="getDevis()"></button>
+                <button style="font-size: 17px;" pButton pRipple label="Devis" icon="pi pi-download"
+                    (click)="adddevis();visibledevis = true" [disabled]="isDevisButtonDisabled()"></button>
                 <button
                     style="font-size: 17px; margin-left:20px; color:rgb(91, 91, 91); background-color:rgb(254, 254, 113); border-color:rgb(254, 254, 113)"
                     pButton pRipple label="Rendez-vous" icon="pi pi-clock" (click)="makeRdv()"></button>
@@ -66,39 +71,38 @@
         background-color: #f9fafb;
     }
 </style>
-<p-dialog header="Veuillez entrer les données" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
-    <!-- Affichage du message s'il n'y a pas de pièces -->
-    <div *ngIf="messagePieces" class="text-black-500 font-semibold mb-4">
+<!-- MODAL -->
+<p-dialog header="Détails des pièces" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem' }">
+
+    <!-- Message si aucune pièce -->
+    <div *ngIf="messagePieces" class="text-green-500 font-semibold mb-4">
         {{ messagePieces }}
     </div>
 
-    <!-- Liste des pièces si elles existent -->
-    <div *ngIf="tachepieces && tachepieces.length > 0">
-        <div *ngFor="let piece of tachepieces" class="flex items-center gap-4 mb-4">
-            <label for="username" class="font-semibold w-24">{{ piece.pieces.nomPiece }}</label>
-            <!-- Champ de texte pour afficher le nombre de pièces -->
-            <input pInputText [(ngModel)]="piece.nombre" id="username" class="flex-auto" autocomplete="off"
-                type="number" min="1" [disabled]="piece.modifiable === 1" />
+    <!-- Affichage des pièces de la tâche sélectionnée -->
+    <div *ngIf="selectedTache && selectedTache.pieces.length > 0">
+        <div *ngFor="let piece of selectedTache.pieces" class="flex flex-col gap-4 mb-4">
+            <label class="font-semibold w-24">{{ piece.pieces.nomPiece }}</label>
+
+            <!-- Champ de texte pour modifier la quantité -->
+            <input pInputText [(ngModel)]="piece.nombre" type="number" min="1"
+                [disabled]="piece.modifiable === 1" [max]="piece.nombreinitial"
+                #numberInput="ngModel" class="flex-auto" autocomplete="off" />
+
+            <!-- Message d'erreur -->
+            <div *ngIf="numberInput.invalid && numberInput.touched" class="text-red-500 text-sm">
+                Le nombre doit être inférieur ou égal à {{ piece.nombreinitial }}.
+            </div>
         </div>
     </div>
+    <!-- Boutons -->
+    <div class="flex justify-end gap-2">
+        <p-button label="Annuler" severity="secondary" (click)="closeDialog()" />
+        <p-button *ngIf="!messagePieces" label="Enregistrer" (click)="visible = false"
+            [disabled]="isNombreInvalid()" />
+    </div>
+</p-dialog>
 
-    <div class="flex justify-end gap-2">
-        <p-button label="Cancel" severity="secondary" (click)="visible = false" />
-        <p-button *ngIf="!messagePieces" label="Save" (click)="visible = false" />
-    </div>
-</p-dialog>
-<p-dialog header="Choisissez le nombre de mecanicien" [modal]="true" [(visible)]="visiblenewdevis" [style]="{ width: '25rem' }">
-    <span class="p-text-secondary block mb-8">NB: le nombre de mécanicien choisis peut affecter le prix et diminuer le duré</span>
-    <span class="p-text-primary block mb-8">MAX MECANICIEN:</span>
-    <div class="flex items-center gap-4 mb-4">
-        <label for="username" class="font-semibold w-24">Mecanicien</label>
-        <input type="number" pInputText id="username" class="flex-auto" autocomplete="off" />
-    </div>
-    <div class="flex justify-end gap-2">
-        <p-button label="Cancel" severity="secondary" (click)="visiblenewdevis = false" />
-        <p-button label="Save" (click)="visiblenewdevis = false;adddevis()" />
-    </div>
-</p-dialog>
 
 
 <p-dialog header="Entrer les informations du RDV" [modal]="true" [(visible)]="visiblerdvnew" [style]="{ width: '25rem' }">
@@ -129,6 +133,7 @@
     </div>
 </p-dialog>
 
+
 <p-dialog header="Entrer les informations du RDV" [modal]="true" [(visible)]="visiblerdv" [style]="{ width: '25rem' }">
     <div class="flex items-center gap-4 mb-4">
         <label for="username" class="font-semibold w-24">Date:</label>
@@ -156,3 +161,220 @@
         <p-button label="Save" (click)="checkRendexVous()" />
     </div>
 </p-dialog>
+
+<p-drawer header="IMAGE DEVIS" [(visible)]="visibledevis" position="full">
+    <button style="font-size: 17px;" pButton pRipple icon="pi pi-download"
+    (click)="telechargerpdf()" [disabled]="isDevisButtonDisabled()"></button>
+<style>
+    .entete {
+        color: #7571f9;
+        background-color: white;
+    }
+
+    .carte {
+        color: white;
+        background-color: white;
+    }
+
+    .texte {
+        color: black;
+    }
+
+    .table {
+        color: black;
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .button-group form {
+        margin-right: 10px;
+        /* Adjust spacing as needed */
+    }
+
+    .form-inline .form-group {
+        margin-right: 5px;
+        /* Reduce the margin between form fields */
+    }
+
+    .form-inline .form-control {
+        padding-left: 5px;
+        /* Adjust padding if needed */
+        padding-right: 5px;
+        /* Adjust padding if needed */
+    }
+
+    .form-group.mb-2,
+    .form-group.mx-sm-1.mb-2 {
+        margin-bottom: 0;
+        /* Remove bottom margin to bring elements closer */
+    }
+
+    .form-inline .form-control-plaintext {
+        margin-right: 5px;
+        /* Reduce space after "Stade" label */
+    }
+
+    .form-inline select,
+    .form-inline button {
+        margin-left: 5px;
+        /* Reduce space before select and button */
+    }
+
+    .apercubc {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: white;
+        border-bottom: solid 3px lightgrey;
+        border-radius: 5px;
+
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 20px;
+        color: black;
+    }
+
+    .product-table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        font-size: 14px;
+        color: rgb(15, 9, 9);
+    }
+
+    .product-table th,
+    .product-table td {
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+
+    .total-section {
+        margin-top: 20px;
+        text-align: right;
+        font-size: 16px;
+    }
+
+    .total-section p {
+        margin: 10px 0;
+    }
+
+    /* double_table */
+
+    .double_table {
+        display: flex;
+        justify-content: space-between;
+        /* Align the two "tables" side by side */
+    }
+
+
+
+
+    .label {
+        font-weight: bold;
+        /* Make the labels bold */
+        display: inline-block;
+        width: 150px;
+        /* Adjust the label width to align content */
+    }
+
+    span {
+        display: inline-block;
+        /* Keep both label and value inline */
+    }
+
+
+    .table-left,
+    .table-right {
+        width: 100%;
+        /* Ajuster la largeur des tables si nécessaire */
+        border-collapse: collapse;
+        /* Pour un style de table net */
+        margin-left: 150px;
+    }
+
+    .strong_tr p {
+        font-weight: bold;
+        margin: 0;
+        padding-right: 10px;
+        /* Optionnel : ajoute un peu d'espace après le texte en gras */
+    }
+
+    td {
+        padding: 8px;
+        border: 1px solid #ddd;
+        /* Optionnel : ajout d'une bordure pour structurer */
+    }
+</style>
+<div class="row apercubc"  style="display: block;">
+    <hr style="border: 0; height: 4px; background-color: white;">
+    <!-- Nouvelle section pour les infos de l'entreprise -->
+    <div class="container" #pdfContent style="border:solid 2px lightgrey;" >
+        <div class="row" >
+            <div class="col-12 text-center">
+                <img src="assets/img/logo.jpg" alt="Logo" style="max-width: 150px;"><span><h2>GAR'ANJA</h2></span>
+            </div>
+        </div>
+        <div class="text-center mt-2">
+            <p style=" margin: 5px 0;" class="texte mb-0"><b>Société Anonyme avec conseil d'administration</b></p>
+            <p style=" margin: 5px 0;" class="texte mb-0"><b>au capital de 1 000 000 Ariary</b></p>
+            <p style=" margin: 5px 0;" class="texte mb-0"><b>LOT C50 BIS Analamanga</b></p>
+        </div>
+
+        <hr style="border: 0; height: 2px; background-color: #ddd;">
+
+        <!-- Section déplacée ici pour apparaître au-dessus de l'HR -->
+        <section class="main-info">
+            <div class="double_table mt-3">
+                <div class="table-left">
+                    <p style=" margin: 5px 0;" class="texte mb-0">GAR'ANJA</p>
+                    <p style=" margin: 5px 0;" class="texte mb-0">Lot C50 Bis</p>
+                    <p style=" margin: 5px 0;" class="texte mb-0">ANTANANARIVO 101</p>
+                    <p style=" margin: 5px 0;" class="texte mb-0">034 01 012 33</p>
+                    <p style=" margin: 5px 0;" class="texte mb-0">garanja&#64;gmail.com</p>
+                </div>
+                <div class="table-right">
+                    <p style=" margin: 5px 0;" class="texte mb-0">{{ user?.nom }}</p>
+                    <p style=" margin: 5px 0;" class="texte mb-0">{{ user?.prenom }}</p>
+                    <p style=" margin: 5px 0;" class="texte mb-0">{{ user?.phone }}</p>
+                    <p style=" margin: 5px 0;" class="texte mb-0">{{ user?.email }}</p>
+                </div>
+            </div>
+        </section>
+
+        <hr style="border: 0; height: 2px; background-color: #ddd;">
+
+        <section class="product-table-section">
+            <table class="product-table">
+                <thead style="background-color:#bee5ff;color:black;text-align:center;">
+                    <tr class="table-success" style="height:30px;">
+                        <th>Tache</th>
+                        <th>Piece</th>
+                        <th>Prix</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let detail of detaildevisbyid">
+                        <td>{{ detail.tache.nom }}</td>
+                        <td>{{ detail.pieces.nomPiece }}</td>
+                        <td>{{ detail.prixTache }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="total-section" style="margin-right: 50px;">
+            <p style=" margin: 5px 0;">TOTAL: <strong>{{ lastdevis_pdf?.totalPrix }}</strong> MGA</p>
+            <br><br>
+        </section>
+    </div>
+</div>
+
+</p-drawer>
+
