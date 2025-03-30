@@ -128,7 +128,7 @@
       </div>
     <div *ngIf="messageTrue" class="mt-3 text-center text-green-500">{{ messageTrue }}</div>
     <div class="flex justify-end gap-2">
-        <p-button label="Cancel" severity="secondary" (click)="visiblerdv = false" />
+        <p-button label="Cancel" severity="secondary" (click)="closerdv2()" />
         <p-button label="Save" (click)="checkRendexVous2()" />
     </div>
 </p-dialog>
@@ -157,7 +157,7 @@
       </div>
     <div *ngIf="messageTrue" class="mt-3 text-center text-green-500">{{ messageTrue }}</div>
     <div class="flex justify-end gap-2">
-        <p-button label="Cancel" severity="secondary" (click)="visiblerdv = false" />
+        <p-button label="Cancel" severity="secondary" (click)="closerdv()" />
         <p-button label="Save" (click)="checkRendexVous()" />
     </div>
 </p-dialog>

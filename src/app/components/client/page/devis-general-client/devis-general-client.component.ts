@@ -1,7 +1,7 @@
 import { CommandePiecesComponent } from './../../../manager/page/stock/commande-pieces/commande-pieces.component';
 import { DevisService } from '../../../../services/devis/devis.service';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit,ViewChild,ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccordionModule } from 'primeng/accordion';
 import { CheckboxModule } from 'primeng/checkbox'; // Assurez-vous d'importer CheckboxModule ici.
@@ -53,7 +53,7 @@ export class DevisGeneralClientComponent implements OnInit {
     visible: boolean = false;
     visiblenewdevis: boolean = false;
     visiblerdv: boolean = false;
-    visiblerdvnew:boolean=false
+    visiblerdvnew: boolean = false
     visibledevis: boolean = false;
     categorieVehicule: string = "";
     modeleVehicule: string = "";
@@ -181,7 +181,7 @@ export class DevisGeneralClientComponent implements OnInit {
     }
     getDevis() {
         this.visiblenewdevis = true;
-        console.log("alltache",this.allTaches);
+        console.log("alltache", this.allTaches);
         // this.getTachesSelectionnees();
     }
     // Méthode qui vérifie si tous les champs 'nombre' sont valides
@@ -208,17 +208,17 @@ export class DevisGeneralClientComponent implements OnInit {
     }
     @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
     telechargerpdf() {
-    const element = this.pdfContent.nativeElement;
-    setTimeout(() => {
-        html2canvas(element, { scale: 2, useCORS: true }).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const imgWidth = 210; // Largeur A4 en mm
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-        pdf.save('devis.pdf');
-        });
-    }, 1000); // Attendre 1 seconde pour s'assurer que l'image est chargée
+        const element = this.pdfContent.nativeElement;
+        setTimeout(() => {
+            html2canvas(element, { scale: 2, useCORS: true }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const imgWidth = 210; // Largeur A4 en mm
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                pdf.save('devis.pdf');
+            });
+        }, 1000); // Attendre 1 seconde pour s'assurer que l'image est chargée
     }
 
     async adddevis() {
@@ -237,7 +237,7 @@ export class DevisGeneralClientComponent implements OnInit {
             }
             // 3️⃣ Récupérer les tâches sélectionnées
             this.tachesSelectionnees = this.getTachesSelectionnees();
-           var nombremeca = 0;
+            var nombremeca = 0;
             // 4️⃣ Parcourir chaque tâche
             for (const tache of this.tachesSelectionnees) {
                 console.log("Tâche en cours :", tache);
@@ -282,9 +282,9 @@ export class DevisGeneralClientComponent implements OnInit {
                     await lastValueFrom(this.DetailDevis.addDetailDevis(detaildevis));
                     console.log("Détail de devis ajouté avec succès :", detaildevis);
                 }
-                nombremeca = nombremeca+tache.nombremeca;
+                nombremeca = nombremeca + tache.nombremeca;
             }
-            var avgnombremeca = nombremeca/this.tachesSelectionnees.length;
+            var avgnombremeca = nombremeca / this.tachesSelectionnees.length;
             // Si avgnombremeca <= 1.5, on garde l'entier, sinon on prend l'entier supérieur
             var meca = avgnombremeca <= 1.5 ? Math.floor(avgnombremeca) : Math.ceil(avgnombremeca);
             // 8️⃣ Mettre à jour le devis après ajout des détails
@@ -309,6 +309,9 @@ export class DevisGeneralClientComponent implements OnInit {
     }
 
     async checkRendexVous() {
+        this.message = "";
+        this.creneauxDisponibles = [];
+        this.messageTrue = "";
         const utilisateur: string = String(this.authService.getUserId());
         this.lastdevis = await lastValueFrom(this.DevisService.getLastDevis(utilisateur));
         const [heure, minutes] = this.rdv.heurerdv.split(":").map(Number);
@@ -335,7 +338,7 @@ export class DevisGeneralClientComponent implements OnInit {
             // Si l'heure de fin dépasse 18:00 ou l'heure de début est avant 08:00
             this.message = "Veuillez choisir une autre date et une heure de début. L'heure de fin ne doit pas dépasser 18:00 et l'heure de début ne doit pas être avant 08:00.";
         }
-        else{
+        else {
             const data1 = {
                 dateRdv: dateRdv.toISOString().split("T")[0], // Garder uniquement YYYY-MM-DD
                 heureDebut: this.rdv.heurerdv,
@@ -382,12 +385,15 @@ export class DevisGeneralClientComponent implements OnInit {
                                     pieces: piece.pieces,
                                     nombre: piece.nombreDemande
                                 };
-                                //await lastValueFrom(this.CommandePiecesServices.addCommandePiece(data6));
+                                await lastValueFrom(this.CommandePiecesServices.addCommandePiece(data6));
 
                                 console.log('Commande passée pour : ', data6);
                             }
                             Swal.fire('Commande effectuée', 'Les pièces manquantes ont été commandées.', 'success');
-                            this.visiblerdvnew=true
+                            this.message="";
+                            this.creneauxDisponibles=[];
+                            this.messageTrue="";
+                            this.visiblerdvnew = true
                         } else {
                             Swal.fire('Annulé', 'Aucune pièce n\'a été commandée.', 'info');
                         }
@@ -440,6 +446,9 @@ export class DevisGeneralClientComponent implements OnInit {
         }
     }
     async checkRendexVous2() {
+        this.message = "";
+        this.creneauxDisponibles = [];
+        this.messageTrue = "";
         const utilisateur: string = String(this.authService.getUserId());
         this.lastdevis = await lastValueFrom(this.DevisService.getLastDevis(utilisateur));
         const [heure, minutes] = this.rdv2.heurerdv.split(":").map(Number);
@@ -462,12 +471,12 @@ export class DevisGeneralClientComponent implements OnInit {
         const dateRdv = new Date(this.rdv2.daterdv);
         //dateRdv.setDate(dateRdv.getDate() + joursAjoutes); // Ajouter les jours nécessaires
         //dateRdv.setDate(dateRdv.getDate() );
-        if(this.rdv2.daterdv>this.rdv2.daterdv){
+        if (this.rdv2.daterdv > this.rdv.daterdv) {
             if (heureFinEnMinutes > heureFinTravail || heureDebutEnMinutes < heureDebutTravail) {
                 // Si l'heure de fin dépasse 18:00 ou l'heure de début est avant 08:00
                 this.message = "Veuillez choisir une autre date et une heure de début. L'heure de fin ne doit pas dépasser 18:00 et l'heure de début ne doit pas être avant 08:00.";
             }
-            else{
+            else {
                 const data1 = {
                     dateRdv: dateRdv.toISOString().split("T")[0], // Garder uniquement YYYY-MM-DD
                     heureDebut: this.rdv2.heurerdv,
@@ -494,39 +503,39 @@ export class DevisGeneralClientComponent implements OnInit {
                     const checkpieces = await lastValueFrom(this.RdvService.checkMecaEtPieces(data3))
                     console.log(checkpieces);
 
-                        const rdv = {
-                            _idUtilisateur: utilisateur,
-                            _idDevis: this.lastdevis._id,
-                            matriculation: "2564845AD",
-                            daterdv: dateRdv.toISOString().split("T")[0],
-                            heuredebut: this.rdv2.heurerdv,
-                            heurefin: heureFin,
+                    const rdv = {
+                        _idUtilisateur: utilisateur,
+                        _idDevis: this.lastdevis._id,
+                        matriculation: "2564845AD",
+                        daterdv: dateRdv.toISOString().split("T")[0],
+                        heuredebut: this.rdv2.heurerdv,
+                        heurefin: heureFin,
+                    }
+                    await lastValueFrom(this.RdvService.addRDV(rdv));
+                    const lastrdv = await lastValueFrom(this.RdvService.getLastRdv(utilisateur));
+                    for (let i = 0; i < checkMecaDispo.length; i++) {
+                        const meca = checkMecaDispo[i];
+                        const data5 = {
+                            _idrendezvous: lastrdv,
+                            _idUtilisateur: meca._id
+                        };
+                        console.log(data5);
+                        await lastValueFrom(this.MecaRdvService.addMecaRdv(data5));
+                        if (i >= this.lastdevis.nombreMecanicien - 1) {
+                            break;
                         }
-                        await lastValueFrom(this.RdvService.addRDV(rdv));
-                        const lastrdv = await lastValueFrom(this.RdvService.getLastRdv(utilisateur));
-                        for (let i = 0; i < checkMecaDispo.length; i++) {
-                            const meca = checkMecaDispo[i];
-                            const data5 = {
-                                _idrendezvous: lastrdv,
-                                _idUtilisateur: meca._id
-                            };
-                            console.log(data5);
-                            await lastValueFrom(this.MecaRdvService.addMecaRdv(data5));
-                            if (i >= this.lastdevis.nombreMecanicien - 1) {
-                                break;
-                            }
-                        }
+                    }
 
 
-                        for (const piece of checkpieces.reservation) {
-                            const data4 = {
-                                _rdv: lastrdv,
-                                pieces: piece.pieces,
-                                nombre: piece.nombre
-                            }
-                            await lastValueFrom(this.CommandePiecesServices.addReservationPiece(data4))
+                    for (const piece of checkpieces.reservation) {
+                        const data4 = {
+                            _rdv: lastrdv,
+                            pieces: piece.pieces,
+                            nombre: piece.nombre
                         }
-                        this.messageTrue = "Rendez-vous sauvegardé avec succès";
+                        await lastValueFrom(this.CommandePiecesServices.addReservationPiece(data4))
+                    }
+                    this.messageTrue = "Rendez-vous sauvegardé avec succès";
                 }
                 else {
                     this.creneauxDisponibles = checkHeureetMeca.creneau;
@@ -534,10 +543,24 @@ export class DevisGeneralClientComponent implements OnInit {
                 }
             }
         }
-        else{
-            this.message="Veuillez selectionner une date 2 jours apres le "+ this.rdv.daterdv
+        else {
+            this.message = "Veuillez selectionner une date 2 jours apres le " + this.rdv.daterdv
         }
 
+    }
+    closerdv(){
+
+        this.message="";
+        this.creneauxDisponibles=[];
+        this.messageTrue="";
+        this.visiblerdv=false;
+    }
+    closerdv2(){
+
+        this.message="";
+        this.creneauxDisponibles=[];
+        this.messageTrue="";
+        this.visiblerdvnew=false;
     }
     makeRdv() {
         this.visiblerdv = true;
