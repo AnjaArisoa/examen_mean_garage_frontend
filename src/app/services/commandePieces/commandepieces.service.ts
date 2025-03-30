@@ -24,5 +24,8 @@ export class CommandepiecesService {
     check_commande(id: string,arrive:any): Observable<any> {
         return this.http.post(`${this.apiUrl}/check_commande/${id}`,arrive);
     }
-}
+    addReservationPiece(piece: any): Observable<any> {
+        return this.http.post(`${this.apiUrl}/reservationpieces`, piece);
+    }
 
+}

@@ -103,18 +103,62 @@
     </div>
 </p-dialog>
 
-<p-dialog header="Entrer les informations du RDV" [modal]="true" [(visible)]="visiblerdv" [style]="{ width: '25rem' }">
+
+
+<p-dialog header="Entrer les informations du RDV" [modal]="true" [(visible)]="visiblerdvnew" [style]="{ width: '25rem' }">
     <div class="flex items-center gap-4 mb-4">
         <label for="username" class="font-semibold w-24">Date:</label>
-        <input type="date" pInputText id="username" class="flex-auto" autocomplete="off" />
+        <input type="date" pInputText id="username" class="flex-auto" autocomplete="off" [(ngModel)]="rdv2.daterdv"/>
     </div>
     <div class="flex items-center gap-4 mb-4">
         <label for="username" class="font-semibold w-24">Heure:</label>
-        <input type="time" pInputText id="username" class="flex-auto" autocomplete="off" />
+        <input type="time" pInputText id="username" class="flex-auto" autocomplete="off" [(ngModel)]="rdv2.heurerdv"/>
     </div>
+    <div *ngIf="message">
+        <p>{{ message }}</p>
+      </div>
+
+      <!-- Liste des créneaux sous forme de cartes -->
+      <div *ngFor="let creneau of creneauxDisponibles">
+        <div class="card">
+          <p><strong>Date:</strong> {{ creneau.date }}</p>
+          <p><strong>Heure début:</strong> {{ creneau.heureDebut }}</p>
+          <p><strong>Heure fin:</strong> {{ creneau.heureFin }}</p>
+        </div>
+      </div>
+    <div *ngIf="messageTrue" class="mt-3 text-center text-green-500">{{ messageTrue }}</div>
     <div class="flex justify-end gap-2">
         <p-button label="Cancel" severity="secondary" (click)="visiblerdv = false" />
-        <p-button label="Save" (click)="visiblerdv = false" />
+        <p-button label="Save" (click)="checkRendexVous2()" />
+    </div>
+</p-dialog>
+
+
+<p-dialog header="Entrer les informations du RDV" [modal]="true" [(visible)]="visiblerdv" [style]="{ width: '25rem' }">
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Date:</label>
+        <input type="date" pInputText id="username" class="flex-auto" autocomplete="off" [(ngModel)]="rdv.daterdv"/>
+    </div>
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Heure:</label>
+        <input type="time" pInputText id="username" class="flex-auto" autocomplete="off" [(ngModel)]="rdv.heurerdv"/>
+    </div>
+    <div *ngIf="message">
+        <p>{{ message }}</p>
+      </div>
+
+      <!-- Liste des créneaux sous forme de cartes -->
+      <div *ngFor="let creneau of creneauxDisponibles">
+        <div class="card">
+          <p><strong>Date:</strong> {{ creneau.date }}</p>
+          <p><strong>Heure début:</strong> {{ creneau.heureDebut }}</p>
+          <p><strong>Heure fin:</strong> {{ creneau.heureFin }}</p>
+        </div>
+      </div>
+    <div *ngIf="messageTrue" class="mt-3 text-center text-green-500">{{ messageTrue }}</div>
+    <div class="flex justify-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visiblerdv = false" />
+        <p-button label="Save" (click)="checkRendexVous()" />
     </div>
 </p-dialog>
 

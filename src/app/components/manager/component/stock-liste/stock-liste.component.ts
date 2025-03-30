@@ -32,24 +32,25 @@ import { TypevehiculeService } from '../../../../services/typevehicule/typevehic
     ],
     templateUrl: './stock-liste.component.html',
     styleUrl: './stock-liste.component.scss',
-     providers: [MessageService]
+    providers: [MessageService]
 })
 export class StockListeComponent {
     donnee: any[] = [];
-    modele:any[]=[];
-    marque:any[]=[];
-    categorie:any[]=[];
-    typeV:any[]=[];
-    typeM:any[]=[];
+    modele: any[] = [];
+    marque: any[] = [];
+    categorie: any[] = [];
+    typeV: any[] = [];
+    typeM: any[] = [];
     visible: boolean = false;
-    newCommande: any = { stockDifference: 1 };
+    newCommande: any =
+     { stockDifference: 1 };
     selectedItem: any = {};
     nomPiece: string = '';
-  reference: string = '';
-  modeleVehicule: string = '';
-  marqueVehicule: string = '';
-    catv:string="";
-    constructor(private StockService: StockService,private commandePieces:CommandepiecesService,private messageService: MessageService, private modelevehiculeService: ModelevehiculeService,private marquevehiculeService:MarquevehiculeService,private categorieVehicule:CategorievehiculeService,private typeMoteur:TypemoteurService,private typevehicule:TypevehiculeService,private pieces:PiecesService) {
+    reference: string = '';
+    modeleVehicule: string = '';
+    marqueVehicule: string = '';
+    catv: string = "";
+    constructor(private StockService: StockService, private commandePieces: CommandepiecesService, private messageService: MessageService, private modelevehiculeService: ModelevehiculeService, private marquevehiculeService: MarquevehiculeService, private categorieVehicule: CategorievehiculeService, private typeMoteur: TypemoteurService, private typevehicule: TypevehiculeService, private pieces: PiecesService) {
     }
     ngOnInit(): void {
         this.loadArticles();
@@ -59,16 +60,16 @@ export class StockListeComponent {
     }
     loadArticles(): void {
         this.StockService.getStocks(this.nomPiece, this.reference, this.modeleVehicule, this.marqueVehicule, this.catv).subscribe(response => {
-          if (response.success && response.data) {
-            this.donnee = response.data;
-            this.nomPiece = '';
-            this.reference = '';
-            this.modeleVehicule = '';
-            this.marqueVehicule = '';
-            this.catv = '';
-          }
+            if (response.success && response.data) {
+                this.donnee = response.data;
+                this.nomPiece = '';
+                this.reference = '';
+                this.modeleVehicule = '';
+                this.marqueVehicule = '';
+                this.catv = '';
+            }
         });
-      }
+    }
 
     loadModele(): void {
         this.modelevehiculeService.getModeleVehicule().subscribe(data => {
@@ -89,7 +90,7 @@ export class StockListeComponent {
 
             this.marque = data.map((item: any) => ({
                 id: item._id,
-                name:item.marqueVehicule // Vérifie si c'est bien la bonne clé
+                name: item.marqueVehicule // Vérifie si c'est bien la bonne clé
             }));
 
             console.log("Marque après transformation:", this.marque);
@@ -102,14 +103,14 @@ export class StockListeComponent {
 
             this.categorie = data.map((item: any) => ({
                 id: item._id,
-                name: item.typeVehicule.nomTypeVehicule+"/"+item.typeMoteur.nomTypeMoteur // Vérifie le bon champ ici
+                name: item.typeVehicule.nomTypeVehicule + "/" + item.typeMoteur.nomTypeMoteur // Vérifie le bon champ ici
             }));
 
             console.log("Catégorie après transformation:", this.categorie);
         });
     }
 
-     loadTypeM(): void {
+    loadTypeM(): void {
         this.typeMoteur.getTypeMoeteur().subscribe(data => {
             //console.log("Type Moteur avant transformation:", data);
             this.typeM = data.map((item: any) => ({
@@ -132,42 +133,42 @@ export class StockListeComponent {
         });
     }
     saveCommande(): void {
-        if (this.selectedItem ) {
-          const commande = {
-            pieces: this.selectedItem._id,
-            nombre: this.newCommande.stockDifference
-          };
+        if (this.selectedItem) {
+            const commande = {
+                pieces: this.selectedItem._id,
+                nombre: this.newCommande.stockDifference
+            };
 
-          this.commandePieces.addCommandePiece(commande).subscribe(
-            () => {
-              this.messageService.add({
-                severity: 'success',
-                summary: 'Commande ajoutée',
-                detail: 'La commande a été enregistrée avec succès.',
-                life: 3000
-              });
-              this.loadArticles(); // Rafraîchir la liste après ajout
-              this.visible = false;
-            },
-            (error) => {
-              console.error('Erreur lors de l\'ajout de la commande', error);
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Erreur',
-                detail: 'Échec de l\'ajout de la commande.',
-                life: 3000
-              });
-            }
-          );
+            this.commandePieces.addCommandePiece(commande).subscribe(
+                () => {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Commande ajoutée',
+                        detail: 'La commande a été enregistrée avec succès.',
+                        life: 3000
+                    });
+                    this.loadArticles(); // Rafraîchir la liste après ajout
+                    this.visible = false;
+                },
+                (error) => {
+                    console.error('Erreur lors de l\'ajout de la commande', error);
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Erreur',
+                        detail: 'Échec de l\'ajout de la commande.',
+                        life: 3000
+                    });
+                }
+            );
         } else {
-          this.messageService.add({
-            severity: 'warn',
-            summary: 'Quantité invalide',
-            detail: 'Veuillez saisir une quantité valide.',
-            life: 3000
-          });
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Quantité invalide',
+                detail: 'Veuillez saisir une quantité valide.',
+                life: 3000
+            });
         }
-        this.visible=false;
+        this.visible = false;
     }
     showDialog(item: any) {
         this.selectedItem = item; // Stocke l'élément cliqué
