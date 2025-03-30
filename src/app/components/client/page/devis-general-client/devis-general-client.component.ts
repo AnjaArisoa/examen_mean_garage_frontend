@@ -1,3 +1,4 @@
+import { CommandePiecesComponent } from './../../../manager/page/stock/commande-pieces/commande-pieces.component';
 import { DevisService } from '../../../../services/devis/devis.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
@@ -18,6 +19,10 @@ import { DetaildevisService } from '../../../../services/detaildevis/detaildevis
 import { CategorievehiculeService } from '../../../../services/categorievehicule/categorievehicule.service';
 import { lastValueFrom } from 'rxjs';
 import { DureeTacheService } from '../../../../services/dureeTache/duree-tache.service';
+import { RendezvousService } from '../../../../services/rdv/rendezvous.service';
+import { CommandepiecesService } from '../../../../services/commandePieces/commandepieces.service';
+import { MacardvService } from '../../../../services/mecaRDV/macardv.service';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-devis-general-client',
@@ -41,13 +46,19 @@ export class DevisGeneralClientComponent implements OnInit {
     visible: boolean = false;
     visiblenewdevis: boolean = false;
     visiblerdv: boolean = false;
+    visiblerdvnew:boolean=false
     categorieVehicule: string = "";
     modeleVehicule: string = "";
     messagePieces: string = "";
     taches: any[] = [];
     tachesSelectionnees: any[] = [];
-    prixcat:number=0;
+    prixcat: number = 0;
     lastdevis: any = null;
+    rdv = { daterdv: "", heurerdv: "" };
+    rdv2 = { daterdv: "", heurerdv: "" };
+    message: string = ""
+    messageTrue: string = ""
+    creneauxDisponibles: any[] = [];
 
 
     constructor(public router: Router,
@@ -57,8 +68,11 @@ export class DevisGeneralClientComponent implements OnInit {
         private authService: AuthService,
         private DevisService: DevisService,
         private DetailDevis: DetaildevisService,
-        private categorieVehiculeService:CategorievehiculeService,
-        private dureeTacheService:DureeTacheService
+        private categorieVehiculeService: CategorievehiculeService,
+        private dureeTacheService: DureeTacheService,
+        private RdvService: RendezvousService,
+        private CommandePiecesServices: CommandepiecesService,
+        private MecaRdvService: MacardvService
     ) { }
 
     getTachesSelectionnees(): any[] {
@@ -137,86 +151,318 @@ export class DevisGeneralClientComponent implements OnInit {
     }
 
 
-async adddevis() {
-    try {
-        const utilisateur: string = String(this.authService.getUserId());
-        // const newdevis = {
-        //     utilisateur: utilisateur,
-        //     categorieVehicule: this.categorieVehicule,
-        //     modeleVehicule: this.modeleVehicule
-        // };
-        // const devisResponse = await lastValueFrom(this.DevisService.addDevis(newdevis));
-        this.lastdevis = await lastValueFrom(this.DevisService.getLastDevis(utilisateur));
-        if (!this.lastdevis) {
-            console.error("Erreur : aucun devis trouvé !");
-            return;
-        }
-        // 3️⃣ Récupérer les tâches sélectionnées
-        this.tachesSelectionnees = this.getTachesSelectionnees();
-
-        // 4️⃣ Parcourir chaque tâche
-        for (const tache of this.tachesSelectionnees) {
-            console.log("Tâche en cours :", tache);
-
-            // 5️⃣ Récupérer les pièces liées à la tâche
-            const piecesData = await lastValueFrom(
-                this.piecesService.getPiecesTache(this.categorieVehicule, this.modeleVehicule, tache.id)
-            );
-
-            if (!piecesData || piecesData.length === 0) {
-                console.log("Aucune pièce trouvée pour la tâche :", tache.id);
-                continue; // Passer à la tâche suivante
+    async adddevis() {
+        try {
+            const utilisateur: string = String(this.authService.getUserId());
+            // const newdevis = {
+            //     utilisateur: utilisateur,
+            //     categorieVehicule: this.categorieVehicule,
+            //     modeleVehicule: this.modeleVehicule
+            // };
+            // const devisResponse = await lastValueFrom(this.DevisService.addDevis(newdevis));
+            this.lastdevis = await lastValueFrom(this.DevisService.getLastDevis(utilisateur));
+            if (!this.lastdevis) {
+                console.error("Erreur : aucun devis trouvé !");
+                return;
             }
+            // 3️⃣ Récupérer les tâches sélectionnées
+            this.tachesSelectionnees = this.getTachesSelectionnees();
 
-            // 6️⃣ Récupérer les infos de la catégorie véhicule
-            const categorieData = await lastValueFrom(
-                this.categorieVehiculeService.getByCategorie(this.categorieVehicule)
-            );
-            const dureTachee=await lastValueFrom(this.dureeTacheService.getDureeTache(tache.id));
-            if (!categorieData) {
-                console.error("Erreur : catégorie véhicule introuvable !");
-                continue;
+            // 4️⃣ Parcourir chaque tâche
+            for (const tache of this.tachesSelectionnees) {
+                console.log("Tâche en cours :", tache);
+
+                // 5️⃣ Récupérer les pièces liées à la tâche
+                const piecesData = await lastValueFrom(
+                    this.piecesService.getPiecesTache(this.categorieVehicule, this.modeleVehicule, tache.id)
+                );
+
+                if (!piecesData || piecesData.length === 0) {
+                    console.log("Aucune pièce trouvée pour la tâche :", tache.id);
+                    continue; // Passer à la tâche suivante
+                }
+
+                // 6️⃣ Récupérer les infos de la catégorie véhicule
+                const categorieData = await lastValueFrom(
+                    this.categorieVehiculeService.getByCategorie(this.categorieVehicule)
+                );
+                const dureTachee = await lastValueFrom(this.dureeTacheService.getDureeTache(tache.id));
+                if (!categorieData) {
+                    console.error("Erreur : catégorie véhicule introuvable !");
+                    continue;
+                }
+
+                this.prixcat = categorieData.coefficient;
+                const prix = (tache.prix * this.prixcat) / piecesData.length;
+                const dureeTotalTache = (parseFloat(dureTachee.duree) + (parseFloat(dureTachee.duree) * (categorieData.coefficient - 1) * 0.3)) / parseFloat(piecesData.length);
+                console.log(piecesData)
+                // 7️⃣ Insérer les détails du devis pour chaque pièce
+                // for (const piece of piecesData) {
+                //     if (!piece.pieces) {
+                //         console.error("Erreur : 'pieces' est manquant dans l'objet", piece);
+                //         continue;
+                //     }
+                //     const prixPieces = piece.pieces.prix * 2;
+                //     const prixTacheTotal = prix + prixPieces;
+                //     const detaildevis = {
+                //         devis: this.lastdevis,
+                //         tache: tache.id,
+                //         pieces: piece.pieces._id,
+                //         prixTache: prixTacheTotal,
+                //         dureTache:dureeTotalTache ,
+                //         nombrePieces: 2
+                //     };
+                //     await lastValueFrom(this.DetailDevis.addDetailDevis(detaildevis));
+                //     console.log("Détail de devis ajouté avec succès :", detaildevis);
+                // }
             }
-
-            this.prixcat = categorieData.coefficient;
-            const prix = (tache.prix * this.prixcat) / piecesData.length;
-            const dureeTotalTache = (parseFloat(dureTachee.duree) + (parseFloat(dureTachee.duree) * (categorieData.coefficient - 1) * 0.3))/parseFloat(piecesData.length);
-            // 7️⃣ Insérer les détails du devis pour chaque pièce
-            // for (const piece of piecesData) {
-            //     if (!piece.pieces) {
-            //         console.error("Erreur : 'pieces' est manquant dans l'objet", piece);
-            //         continue;
-            //     }
-            //     const prixPieces = piece.pieces.prix * 2;
-            //     const prixTacheTotal = prix + prixPieces;
-            //     const detaildevis = {
-            //         devis: this.lastdevis,
-            //         tache: tache.id,
-            //         pieces: piece._id,
-            //         prixTache: prixTacheTotal,
-            //         dureTache:dureeTotalTache ,
-            //         nombrePieces: 2
-            //     };
-            //     await lastValueFrom(this.DetailDevis.addDetailDevis(detaildevis));
-            //     console.log("Détail de devis ajouté avec succès :", detaildevis);
-            // }
+            // 8️⃣ Mettre à jour le devis après ajout des détails
+            // const somme = await lastValueFrom(this.DetailDevis.getSumDetailDevis(this.lastdevis._id))
+            // const updateDevis = {
+            //     totalPrix: somme.totalPrixTache,
+            //     nombreMecanicien: 2,
+            //     totalHeure: somme.totalDureTache
+            // };
+            // await lastValueFrom(this.DevisService.updateDevis(this.lastdevis._id, updateDevis));
+            console.log("Devis mis à jour avec succès !");
+        } catch (error) {
+            console.error("Erreur lors de l'exécution de adddevis :", error);
         }
-        // 8️⃣ Mettre à jour le devis après ajout des détails
-        const somme=await lastValueFrom(this.DetailDevis.getSumDetailDevis(this.lastdevis._id))
-        const updateDevis = {
-            totalPrix: somme.totalPrixTache,
-            nombreMecanicien: 2,
-            totalHeure: somme.totalDureTache
-        };
-        await lastValueFrom(this.DevisService.updateDevis(this.lastdevis._id, updateDevis));
-        console.log("Devis mis à jour avec succès !");
-    } catch (error) {
-        console.error("Erreur lors de l'exécution de adddevis :", error);
     }
-}
+    async checkRendexVous() {
+        const utilisateur: string = String(this.authService.getUserId());
+        this.lastdevis = await lastValueFrom(this.DevisService.getLastDevis(utilisateur));
+        const [heure, minutes] = this.rdv.heurerdv.split(":").map(Number);
+        const heureDebutMinutes = heure * 60 + minutes;
+        const heureTotalMinutes = heureDebutMinutes + this.lastdevis.totalHeure;
+        const heureDebutTravail = 8 * 60; // 08:00 en minutes
+        const heureFinTravail = 18 * 60; // 18:00 en minutes
+
+        // Convertir heureTotalMinutes en HH:mm
+        const heureFinHeure = Math.floor(heureTotalMinutes / 60);
+        const heureFinMinutes = heureTotalMinutes % 60;
+        let heureFin = `${String(heureFinHeure).padStart(2, "0")}:${String(heureFinMinutes).padStart(2, "0")}`;
+
+        // Vérification si l'heure de fin dépasse 18:00 ou si l'heure de début est avant 08:00
+        const [finHeure, finMinutes] = heureFin.split(":").map(Number);
+        const heureFinEnMinutes = finHeure * 60 + finMinutes;
+        const [debutHeure, debutMinutes] = this.rdv.heurerdv.split(":").map(Number);
+        const heureDebutEnMinutes = debutHeure * 60 + debutMinutes;
+        // Gérer l'ajout de jours à la date
+        const dateRdv = new Date(this.rdv.daterdv);
+        //dateRdv.setDate(dateRdv.getDate() + joursAjoutes); // Ajouter les jours nécessaires
+        //dateRdv.setDate(dateRdv.getDate() );
+        if (heureFinEnMinutes > heureFinTravail || heureDebutEnMinutes < heureDebutTravail) {
+            // Si l'heure de fin dépasse 18:00 ou l'heure de début est avant 08:00
+            this.message = "Veuillez choisir une autre date et une heure de début. L'heure de fin ne doit pas dépasser 18:00 et l'heure de début ne doit pas être avant 08:00.";
+        }
+        else{
+            const data1 = {
+                dateRdv: dateRdv.toISOString().split("T")[0], // Garder uniquement YYYY-MM-DD
+                heureDebut: this.rdv.heurerdv,
+                heureFin: heureFin
+            };
+
+            //check nombre meca dispo
+            const checkMecaDispo = await lastValueFrom(this.RdvService.checkMecaDispo({ params: data1 }));
+            const data2 = {
+                nbrMecaDispo: checkMecaDispo.length,
+                nbrDemande: this.lastdevis.nombreMecanicien,
+                dateRdv: this.rdv.daterdv,
+                heureDebut: this.rdv.heurerdv,
+                heureFin: heureFin
+            }
+            //check Heure avec nombre meca dispo
+            const checkHeureetMeca = await lastValueFrom(this.RdvService.checkMecaDispoetHeure({ params: data2 }))
+            if (checkHeureetMeca.disponible) {
+                const detaidevis = await lastValueFrom(this.DetailDevis.getByDetailDevis(this.lastdevis._id));
+                const data3 = {
+                    idDevis: this.lastdevis._id,
+                    detailsDevis: detaidevis
+                }
+                //check stock et reservation pieces raha ampy
+                const checkpieces = await lastValueFrom(this.RdvService.checkMecaEtPieces(data3))
+                console.log(checkpieces);
+                if (checkpieces.success == false) {
+                    this.message = "Pieces insuffisantes";
+                    console.log(checkpieces.piecesInsuffisantes);
+                    this.visiblerdv = false;
+                    // Affichage de l'alerte avec SweetAlert2
+                    Swal.fire({
+                        title: 'Stock insuffisant',
+                        text: 'Voulez-vous commander les pièces manquantes ?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Oui, commander',
+                        cancelButtonText: 'Non, annuler',
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            // Si l'utilisateur confirme la commande, on insère les pièces
+                            for (const piece of checkpieces.piecesInsuffisantes) {
+                                const data6 = {
+                                    pieces: piece.pieces,
+                                    nombre: piece.nombreDemande
+                                };
+                                //await lastValueFrom(this.CommandePiecesServices.addCommandePiece(data6));
+
+                                console.log('Commande passée pour : ', data6);
+                            }
+                            Swal.fire('Commande effectuée', 'Les pièces manquantes ont été commandées.', 'success');
+                            this.visiblerdvnew=true
+                        } else {
+                            Swal.fire('Annulé', 'Aucune pièce n\'a été commandée.', 'info');
+                        }
+                    });
+                }
+
+                else {
+
+                    const rdv = {
+                        _idUtilisateur: utilisateur,
+                        _idDevis: this.lastdevis._id,
+                        matriculation: "2564845AD",
+                        daterdv: dateRdv.toISOString().split("T")[0],
+                        heuredebut: this.rdv.heurerdv,
+                        heurefin: heureFin,
+                    }
+                    await lastValueFrom(this.RdvService.addRDV(rdv));
+                    const lastrdv = await lastValueFrom(this.RdvService.getLastRdv(utilisateur));
+                    for (let i = 0; i < checkMecaDispo.length; i++) {
+                        const meca = checkMecaDispo[i];
+                        const data5 = {
+                            _idrendezvous: lastrdv,
+                            _idUtilisateur: meca._id
+                        };
+                        console.log(data5);
+                        await lastValueFrom(this.MecaRdvService.addMecaRdv(data5));
+                        if (i >= this.lastdevis.nombreMecanicien - 1) {
+                            break;
+                        }
+                    }
 
 
+                    for (const piece of checkpieces.reservation) {
+                        const data4 = {
+                            _rdv: lastrdv,
+                            pieces: piece.pieces,
+                            nombre: piece.nombre
+                        }
+                        await lastValueFrom(this.CommandePiecesServices.addReservationPiece(data4))
+                    }
+                    this.messageTrue = "Rendez-vous sauvegardé avec succès";
+
+                }
+
+            }
+            else {
+                this.creneauxDisponibles = checkHeureetMeca.creneau;
+                this.message = checkHeureetMeca.message
+            }
+        }
+    }
+    async checkRendexVous2() {
+        const utilisateur: string = String(this.authService.getUserId());
+        this.lastdevis = await lastValueFrom(this.DevisService.getLastDevis(utilisateur));
+        const [heure, minutes] = this.rdv2.heurerdv.split(":").map(Number);
+        const heureDebutMinutes = heure * 60 + minutes;
+        const heureTotalMinutes = heureDebutMinutes + this.lastdevis.totalHeure;
+        const heureDebutTravail = 8 * 60; // 08:00 en minutes
+        const heureFinTravail = 18 * 60; // 18:00 en minutes
+
+        // Convertir heureTotalMinutes en HH:mm
+        const heureFinHeure = Math.floor(heureTotalMinutes / 60);
+        const heureFinMinutes = heureTotalMinutes % 60;
+        let heureFin = `${String(heureFinHeure).padStart(2, "0")}:${String(heureFinMinutes).padStart(2, "0")}`;
+
+        // Vérification si l'heure de fin dépasse 18:00 ou si l'heure de début est avant 08:00
+        const [finHeure, finMinutes] = heureFin.split(":").map(Number);
+        const heureFinEnMinutes = finHeure * 60 + finMinutes;
+        const [debutHeure, debutMinutes] = this.rdv2.heurerdv.split(":").map(Number);
+        const heureDebutEnMinutes = debutHeure * 60 + debutMinutes;
+        // Gérer l'ajout de jours à la date
+        const dateRdv = new Date(this.rdv2.daterdv);
+        //dateRdv.setDate(dateRdv.getDate() + joursAjoutes); // Ajouter les jours nécessaires
+        //dateRdv.setDate(dateRdv.getDate() );
+        if(this.rdv2.daterdv>this.rdv2.daterdv){
+            if (heureFinEnMinutes > heureFinTravail || heureDebutEnMinutes < heureDebutTravail) {
+                // Si l'heure de fin dépasse 18:00 ou l'heure de début est avant 08:00
+                this.message = "Veuillez choisir une autre date et une heure de début. L'heure de fin ne doit pas dépasser 18:00 et l'heure de début ne doit pas être avant 08:00.";
+            }
+            else{
+                const data1 = {
+                    dateRdv: dateRdv.toISOString().split("T")[0], // Garder uniquement YYYY-MM-DD
+                    heureDebut: this.rdv2.heurerdv,
+                    heureFin: heureFin
+                };
+                //check nombre meca dispo
+                const checkMecaDispo = await lastValueFrom(this.RdvService.checkMecaDispo({ params: data1 }));
+                const data2 = {
+                    nbrMecaDispo: checkMecaDispo.length,
+                    nbrDemande: this.lastdevis.nombreMecanicien,
+                    dateRdv: this.rdv2.daterdv,
+                    heureDebut: this.rdv2.heurerdv,
+                    heureFin: heureFin
+                }
+                //check Heure avec nombre meca dispo
+                const checkHeureetMeca = await lastValueFrom(this.RdvService.checkMecaDispoetHeure({ params: data2 }))
+                if (checkHeureetMeca.disponible) {
+                    const detaidevis = await lastValueFrom(this.DetailDevis.getByDetailDevis(this.lastdevis._id));
+                    const data3 = {
+                        idDevis: this.lastdevis._id,
+                        detailsDevis: detaidevis
+                    }
+                    //check stock et reservation pieces raha ampy
+                    const checkpieces = await lastValueFrom(this.RdvService.checkMecaEtPieces(data3))
+                    console.log(checkpieces);
+
+                        const rdv = {
+                            _idUtilisateur: utilisateur,
+                            _idDevis: this.lastdevis._id,
+                            matriculation: "2564845AD",
+                            daterdv: dateRdv.toISOString().split("T")[0],
+                            heuredebut: this.rdv2.heurerdv,
+                            heurefin: heureFin,
+                        }
+                        await lastValueFrom(this.RdvService.addRDV(rdv));
+                        const lastrdv = await lastValueFrom(this.RdvService.getLastRdv(utilisateur));
+                        for (let i = 0; i < checkMecaDispo.length; i++) {
+                            const meca = checkMecaDispo[i];
+                            const data5 = {
+                                _idrendezvous: lastrdv,
+                                _idUtilisateur: meca._id
+                            };
+                            console.log(data5);
+                            await lastValueFrom(this.MecaRdvService.addMecaRdv(data5));
+                            if (i >= this.lastdevis.nombreMecanicien - 1) {
+                                break;
+                            }
+                        }
+
+
+                        for (const piece of checkpieces.reservation) {
+                            const data4 = {
+                                _rdv: lastrdv,
+                                pieces: piece.pieces,
+                                nombre: piece.nombre
+                            }
+                            await lastValueFrom(this.CommandePiecesServices.addReservationPiece(data4))
+                        }
+                        this.messageTrue = "Rendez-vous sauvegardé avec succès";
+                }
+                else {
+                    this.creneauxDisponibles = checkHeureetMeca.creneau;
+                    this.message = checkHeureetMeca.message
+                }
+            }
+        }
+        else{
+            this.message="Veuillez selectionner une date 2 jours apres le "+ this.rdv.daterdv
+        }
+
+    }
     makeRdv() {
         this.visiblerdv = true;
     }
+
+
 }
