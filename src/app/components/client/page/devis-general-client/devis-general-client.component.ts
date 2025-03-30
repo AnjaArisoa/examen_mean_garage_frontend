@@ -83,10 +83,9 @@ export class DevisGeneralClientComponent implements OnInit {
         private DevisService: DevisService,
         private DetailDevis: DetaildevisService,
         private categorieVehiculeService: CategorievehiculeService,
-        private dureeTacheService: DureeTacheService,
         private RdvService: RendezvousService,
         private CommandePiecesServices: CommandepiecesService,
-        private MecaRdvService: MacardvService
+        private MecaRdvService: MacardvService,
         private dureeTacheService: DureeTacheService
 
     ) { }
@@ -207,9 +206,6 @@ export class DevisGeneralClientComponent implements OnInit {
         }
         this.visible = false;
     }
-    makeRdv() {
-        this.visiblerdv = true;
-    }
     @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
     telechargerpdf() {
     const element = this.pdfContent.nativeElement;
@@ -311,7 +307,7 @@ export class DevisGeneralClientComponent implements OnInit {
         this.visible = false;
 
     }
-  
+
     async checkRendexVous() {
         const utilisateur: string = String(this.authService.getUserId());
         this.lastdevis = await lastValueFrom(this.DevisService.getLastDevis(utilisateur));
