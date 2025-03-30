@@ -19,4 +19,7 @@ export class DetaildevisService {
     getSumDetailDevis(id:string): Observable<any> {
         return this.http.get(`${this.apiUrl}/getByDevis/${id}`);
     }
+    getDetailDevisByIdDevis(id: string): Observable<any>{
+        return this.http.get(`${this.apiUrl}/detaildevis/${id}`);
+    }
 }
