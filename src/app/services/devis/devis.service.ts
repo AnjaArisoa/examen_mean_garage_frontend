@@ -19,4 +19,7 @@ export class DevisService {
     updateDevis(id:string,donne:any):Observable<any>{
         return this.http.put(`${this.apiUrl}/${id}`,donne);
     }
+    getRevenue(data:any): Observable<any> {
+        return this.http.get(`${this.apiUrl}/revenue`,data);
+    }
 }

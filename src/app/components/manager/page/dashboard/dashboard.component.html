@@ -1,4 +1,4 @@
-<div class="flex flex-row-reverse space-x-4 space-x-reverse mb-3 ">
+<!-- <div class="flex flex-row-reverse space-x-4 space-x-reverse mb-3 ">
     <div class="flex gap-3">
         <p-calendar  view="year" dateFormat="yy" placeholder="Année" ></p-calendar>
         <div>
@@ -6,16 +6,18 @@
         </div>
     </div>
     <p-calendar  view="month" dateFormat="mm" placeholder="Mois" ></p-calendar>
-</div>
+</div> -->
+<app-dashboard-kpi class="contents" />
 <div class="grid grid-cols-12 gap-8">
 
-    <app-dashboard-kpi class="contents" />
+
     <div class="col-span-12 xl:col-span-6">
-        <app-dashboard-chart-bar/>
+        <!-- <app-dashboard-chart-bar/>-->
         <app-dashboard-chart-donut/>
+        <app-dashboard-chart-linear/>
     </div>
     <div class="col-span-12 xl:col-span-6">
-        <app-dashboard-chart-linear/>
+
         <app-dashboard-chart-horizontal-bar/>
     </div>
 </div>

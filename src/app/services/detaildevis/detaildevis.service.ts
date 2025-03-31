@@ -26,4 +26,8 @@ export class DetaildevisService {
     getDetailDevisByIdDevis(id: string): Observable<any>{
         return this.http.get(`${this.apiUrl}/detaildevis/${id}`);
     }
+    getTachePop(data:any): Observable<any>{
+        return this.http.get(`${this.apiUrl}/getTachePop`,data);
+    }
+
 }
