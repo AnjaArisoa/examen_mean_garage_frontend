@@ -62,8 +62,8 @@ export class DevisGeneralClientComponent implements OnInit {
     tachesSelectionnees: any[] = [];
     prixcat: number = 0;
     lastdevis: any = null;
-    rdv = { daterdv: "", heurerdv: "" };
-    rdv2 = { daterdv: "", heurerdv: "" };
+    rdv = { daterdv: "", heurerdv: "",matriculation:"" };
+    rdv2 = { daterdv: "", heurerdv: "",matriculation:"" };
     message: string = ""
     messageTrue: string = ""
     creneauxDisponibles: any[] = [];
@@ -405,7 +405,7 @@ export class DevisGeneralClientComponent implements OnInit {
                     const rdv = {
                         _idUtilisateur: utilisateur,
                         _idDevis: this.lastdevis._id,
-                        matriculation: "2564845AD",
+                        matriculation: this.rdv.matriculation,
                         daterdv: dateRdv.toISOString().split("T")[0],
                         heuredebut: this.rdv.heurerdv,
                         heurefin: heureFin,
@@ -506,7 +506,7 @@ export class DevisGeneralClientComponent implements OnInit {
                     const rdv = {
                         _idUtilisateur: utilisateur,
                         _idDevis: this.lastdevis._id,
-                        matriculation: "2564845AD",
+                        matriculation: this.rdv2.matriculation,
                         daterdv: dateRdv.toISOString().split("T")[0],
                         heuredebut: this.rdv2.heurerdv,
                         heurefin: heureFin,
