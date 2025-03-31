@@ -2,8 +2,8 @@
     <div class="p-5 bg-gray-100 rounded-lg shadow-lg" style="width: 100%;">
         <div class="flex flex-col gap-2 items-end">
             <div class="flex gap-2">
-                <input type="date" pInputText id="daterdv" style="height: 32.5px;" />
-                <span><p-button icon="pi pi-search" /></span>
+                <input type="date" pInputText id="daterdv" style="height: 32.5px;" [(ngModel)]="date"/>
+                <span><p-button icon="pi pi-search" (click)="getRendezVous()" /></span>
             </div>
         </div>
         <h2 class="text-lg font-semibold text-center mb-4">📆 Planning des Rendez-vous</h2>
@@ -16,18 +16,32 @@
                     </div>
                 </ng-template>
 
-                <div class="ml-6 grid gap-2" [ngClass]="getGridStyleForHour(heure)">
+                <div class="ml-6 grid gap-2" [ngClass]="getGridStyleForHour(heure)" >
                     <div *ngFor="let rdv of getRdvForHour(heure)" class="p-2 rounded shadow-md" [ngClass]="rdv.couleur"
-                        style="cursor: pointer;">
-                        <div class="font-bold">📅 {{ rdv.debut }} → {{ rdv.fin }}</div>
-                        <div class="text-sm">🧑‍💼 Client : <strong>{{ rdv.client }}</strong></div>
-                        <div class="text-sm">📌 Sujet : {{ rdv.sujet }}</div>
+                        style="cursor: pointer;" (click)="getDetailRendezVous(rdv._id)">
+                        <div class="font-bold">📅 {{ rdv.heuredebut }} → {{ rdv.heurefin }}</div>
+                        <div class="text-sm">🧑‍💼 Client : <strong>{{ rdv._idUtilisateur.nom }}</strong></div>
+                        <div class="text-sm">📌 Immatriculation : {{ rdv.matriculation }}</div>
                     </div>
                 </div>
             </p-accordionTab>
         </p-accordion>
     </div>
 </div>
+<p-dialog [(visible)]="visible" header="Détails du Rendez-vous" [modal]="true" [closable]="true">
+    <div *ngIf="detail">
+        <p><strong>📅 Date :</strong> {{ detail.rendezvous.daterdv | date:'longDate' }}</p>
+        <p><strong>🕘 Horaire :</strong> {{ detail.rendezvous.heuredebut }} → {{ detail.rendezvous.heurefin }}</p>
+        <p><strong>🧑‍💼 Client :</strong> {{ detail.rendezvous.nomUtilisateur }}</p>
+        <p><strong>📌 Immatriculation :</strong> {{ detail.rendezvous.matriculation }}</p>
+
+        <h4 class="mt-3">👨‍🔧 Mécaniciens :</h4>
+        <ul>
+            <li *ngFor="let mecano of detail.mecaniciens">{{ mecano.nom }}</li>
+        </ul>
+    </div>
+</p-dialog>
+
 <style>
     .grid {
         display: grid;

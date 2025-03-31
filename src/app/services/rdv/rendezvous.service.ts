@@ -26,6 +26,12 @@ export class RendezvousService {
     getLastRdv(id: string): Observable<any> {
         return this.http.get(`${this.apiUrl}/last/${id}`);
     }
+    getRendezvousManager(date:any): Observable<any> {
+        return this.http.get(`${this.apiUrl}/rendezvous`,date);
+    }
+    getDetailRendezvousManager(id:string): Observable<any> {
+        return this.http.get(`${this.apiUrl}/rendezvous/${id}`);
+    }
 
 
 }
