@@ -1,10 +1,9 @@
 <div class="card !mb-8">
     <div class="flex ">
-        <p class="font-semibold text-xl mb-4 w-[50%]">Revenue par mois</p>
+        <p class="font-semibold text-xl mb-4 w-[50%]">Revenue par an</p>
         <div class="flex gap-3 mb-3 w-[50%]">
-            <p-calendar  view="month" dateFormat="mm" placeholder="Mois"></p-calendar>
-            <p-calendar  view="year" dateFormat="yy" placeholder="Année"></p-calendar>
-            <p-button icon="pi pi-search"/>
+            <p-calendar  view="year" dateFormat="yy" placeholder="Année" [(ngModel)]="annee"></p-calendar>
+            <p-button icon="pi pi-search" (onClick)="loadMecaRdv()"/>
         </div>
     </div>
 

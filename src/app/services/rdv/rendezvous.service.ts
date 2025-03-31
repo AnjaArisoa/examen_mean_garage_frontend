@@ -32,6 +32,9 @@ export class RendezvousService {
     getDetailRendezvousManager(id:string): Observable<any> {
         return this.http.get(`${this.apiUrl}/rendezvous/${id}`);
     }
+    getrdv():Observable<any>{
+        return this.http.get(`${this.apiUrl}`);
+    }
 
 
 }
