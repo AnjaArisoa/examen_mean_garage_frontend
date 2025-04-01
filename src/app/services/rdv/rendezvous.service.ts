@@ -27,5 +27,9 @@ export class RendezvousService {
         return this.http.get(`${this.apiUrl}/last/${id}`);
     }
 
+    getRdvByUser(id:string): Observable<any> {
+        return this.http.get(`${this.apiUrl}/getRendezVousByUtilisateur/${id}`);
+    }
+
 
 }

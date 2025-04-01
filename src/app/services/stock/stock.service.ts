@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class StockService {
 
@@ -24,5 +24,13 @@ export class StockService {
 
         // Retourner la requête GET avec les paramètres
         return this.http.get(`${this.apiUrl}/recherche-pieces-et-restant`, { params });
-      }
+    }
+
+    getStockByPiece(id: string): Observable<any> {
+        return this.http.get(`${this.apiUrl}/getStockByPiece/${id}`);
+    }
+    addSorti(sorti: any): Observable<any> {
+        return this.http.post(this.apiUrl, sorti);
+    }
+
 }

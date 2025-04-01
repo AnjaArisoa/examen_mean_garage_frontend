@@ -26,4 +26,19 @@ export class DetaildevisService {
     getDetailDevisByIdDevis(id: string): Observable<any>{
         return this.http.get(`${this.apiUrl}/detaildevis/${id}`);
     }
+    getAllInfoTache(id: string): Observable<any>{
+        return this.http.get(`${this.apiUrl}/getAllTacheAndPiece/${id}`);
+    }
+    getAllTacheEnCour(id: string): Observable<any>{
+        return this.http.get(`${this.apiUrl}/getAllTacheAndPieceEnCours/${id}`);
+    }
+    getAllTacheTerminer(id: string): Observable<any>{
+        return this.http.get(`${this.apiUrl}/getAllTacheAndPieceTerminer/${id}`);
+    }
+    UpdateTache(id: string,tache: any): Observable<any>{
+        return this.http.put(`${this.apiUrl}/updatetache/${id}`,tache);
+    }
+    getTacheDevis(id: string): Observable<any> {
+        return this.http.get(`${this.apiUrl}/detailForRdv/${id}`);
+    }
 }

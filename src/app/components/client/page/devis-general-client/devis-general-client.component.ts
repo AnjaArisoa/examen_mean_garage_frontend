@@ -382,7 +382,7 @@ export class DevisGeneralClientComponent implements OnInit {
                                     pieces: piece.pieces,
                                     nombre: piece.nombreDemande
                                 };
-                                //await lastValueFrom(this.CommandePiecesServices.addCommandePiece(data6));
+                                await lastValueFrom(this.CommandePiecesServices.addCommandePiece(data6));
 
                                 console.log('Commande passée pour : ', data6);
                             }
