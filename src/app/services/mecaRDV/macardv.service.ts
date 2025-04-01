@@ -17,4 +17,7 @@ export class MacardvService {
     getRendezvousMecaWithCollab(id: string): Observable<any>{
         return this.http.get(`${this.apiUrl}/listerendezvous/${id}`);
     }
+    getMecaRdv(data:any):Observable<any>{
+        return this.http.get(`${this.apiUrl}/nombreParMeca`,data);
+    }
 }

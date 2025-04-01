@@ -114,6 +114,10 @@
         <label for="username" class="font-semibold w-24">Heure:</label>
         <input type="time" pInputText id="username" class="flex-auto" autocomplete="off" [(ngModel)]="rdv2.heurerdv"/>
     </div>
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Immatriculation:</label>
+        <input type="text" pInputText id="username" class="flex-auto" autocomplete="off" [(ngModel)]="rdv2.matriculation"/>
+    </div>
     <div *ngIf="message">
         <p>{{ message }}</p>
       </div>
@@ -128,7 +132,7 @@
       </div>
     <div *ngIf="messageTrue" class="mt-3 text-center text-green-500">{{ messageTrue }}</div>
     <div class="flex justify-end gap-2">
-        <p-button label="Cancel" severity="secondary" (click)="visiblerdv = false" />
+        <p-button label="Cancel" severity="secondary" (click)="closerdv2()" />
         <p-button label="Save" (click)="checkRendexVous2()" />
     </div>
 </p-dialog>
@@ -143,6 +147,10 @@
         <label for="username" class="font-semibold w-24">Heure:</label>
         <input type="time" pInputText id="username" class="flex-auto" autocomplete="off" [(ngModel)]="rdv.heurerdv"/>
     </div>
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Immatriculation:</label>
+        <input type="text" pInputText id="username" class="flex-auto" autocomplete="off" [(ngModel)]="rdv.matriculation"/>
+    </div>
     <div *ngIf="message">
         <p>{{ message }}</p>
       </div>
@@ -157,7 +165,7 @@
       </div>
     <div *ngIf="messageTrue" class="mt-3 text-center text-green-500">{{ messageTrue }}</div>
     <div class="flex justify-end gap-2">
-        <p-button label="Cancel" severity="secondary" (click)="visiblerdv = false" />
+        <p-button label="Cancel" severity="secondary" (click)="closerdv()" />
         <p-button label="Save" (click)="checkRendexVous()" />
     </div>
 </p-dialog>
