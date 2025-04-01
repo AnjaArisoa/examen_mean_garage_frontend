@@ -25,8 +25,8 @@ export const appRoutes: Routes = [
     {
         path: 'manager',
         component: LayoutComponent,
-        // canActivate: [authGuard],
-        // data: { role: 'manager' },
+        canActivate: [authGuard],
+        data: { role: 'manager' },
         children: [
             { path: '', component: DashboardComponent },
             { path: 'crud', component: CrudComponent },
@@ -48,7 +48,7 @@ export const appRoutes: Routes = [
         children: [
             { path: '', component: ListeRendezVousComponent },
             { path: 'page/planing/liste-rendez-vous', component: ListeRendezVousComponent },
-            { path: 'planing/rendez-vous', component: PlaningMecanicienComponent }
+            { path: 'planing/rendez-vous/:id/:idrdv', component: PlaningMecanicienComponent }
         ]
     },
     { path: '',component: ClientComponent},
@@ -60,7 +60,7 @@ export const appRoutes: Routes = [
     { path: 'diagnostic', component: DiagnosticClientComponent
         , canActivate: [authGuard],data: { role: 'client' }
      },
-    { path: 'detailavancement', component: DetailAvancementComponent
+    { path: 'detailavancement/:id', component: DetailAvancementComponent
         , canActivate: [authGuard],data: { role: 'client' }
      },
     { path: 'devis/:categorieVehicule/:modeleVehicule', component: DevisGeneralClientComponent

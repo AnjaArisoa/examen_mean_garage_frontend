@@ -10,19 +10,29 @@ import { TopbarClientComponent } from '../../client/page/topbar-client/topbar-cl
 import { FooterClientComponent } from '../../client/page/footer-client/footer-client.component';
 import { AuthService } from '../../../services/authservice/auth.service';
 import { Router } from '@angular/router';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 @Component({
     selector: 'app-login',
-    imports: [ButtonModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule, TopbarClientComponent, FooterClientComponent],
+    imports: [ButtonModule, CheckboxModule, InputTextModule, PasswordModule, FormsModule, RouterModule, RippleModule, TopbarClientComponent, FooterClientComponent, Tabs, TabList, Tab, TabPanels, TabPanel],
     templateUrl: './login.component.html',
     styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-    email: string = '';
-
-    mdp: string = '';
-
+    email: string = 'client@gmail.com';
+    mdp: string = "anja";
 
     constructor(private authService: AuthService, private router: Router) { }
+
+    stat(nombre: number) {
+        if (nombre == 1) {
+            this.email = 'mecanicien@gmail.com';
+            this.mdp = 'test';
+        }
+        if (nombre == 2) {
+            this.email = 'manager@garanja.com';
+            this.mdp = 'notia';
+        }
+    }
 
     login() {
         this.authService.login(this.email, this.mdp).subscribe(

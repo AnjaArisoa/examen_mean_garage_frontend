@@ -37,6 +37,15 @@ export class TopbarClientComponent {
             this.visible = true;
         }
     }
+    goAvancement(){
+        const token = this.authService.getToken();
+        const role = this.authService.getUserRole();
+        if (!token || role!="client") {
+            this.router.navigate(['/login']);
+        } else {
+            this.router.navigate([`/avancement`]);
+        }
+    }
 
     ngOnInit(): void {
         this.loadCategorie();
