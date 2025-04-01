@@ -26,7 +26,7 @@ export class ListeRendezVousComponent implements OnInit {
     stock: any[] = [];
     errorMessage: string = ''; // Variable pour afficher un message d'erreur
     visible:boolean = false;
-    isClicked = false;
+    isClicked: boolean = false;
     constructor(
         private router: Router,
         private MecaRdvService: MacardvService,
@@ -36,6 +36,8 @@ export class ListeRendezVousComponent implements OnInit {
     lsitrendezvous: any[] = [];
 
     ngOnInit(): void {
+        // Vérifie dans le localStorage si le bouton doit être caché
+        this.isClicked = localStorage.getItem('buttonClicked') === 'true';
         this.loadRendezvousmeca();
     }
     loadRendezvousmeca(): void {
@@ -77,11 +79,11 @@ export class ListeRendezVousComponent implements OnInit {
                             }
                         );
                         this.isClicked = true;
+                        localStorage.setItem('buttonClicked', 'true');
                     }
                 })
             });
         });
-
     }
 
 }
