@@ -24,8 +24,14 @@
                     <td class="px-6 py-4 text-center font-medium">{{ rendezvous._idrendezvous._idDevis.modeleVehicule.modeleVehicule}}</td>
                     <td class="px-6 py-4 text-center font-medium">{{ rendezvous._idrendezvous.matriculation }}</td>
                     <td class="px-6 py-4 text-center">{{ rendezvous.utilisateurs.length-1  }}</td>
-                    <td *ngIf="!isClicked" class="px-6 py-4 text-center"><button pButton pRipple icon="pi pi-play" (click)="onButtonClick($event,rendezvous._idrendezvous._idDevis._id,rendezvous._idrendezvous._id);visible=true"></button></td>
-                    <td *ngIf="isClicked" class="px-6 py-4 text-center"><button pButton pRipple icon="pi pi-stop-circle" disabled severity="danger"></button></td>
+                    <td *ngIf="!isClickedMap[rendezvous._idrendezvous._id]" class="px-6 py-4 text-center">
+                        <button pButton pRipple icon="pi pi-play"
+                            (click)="onButtonClick($event, rendezvous._idrendezvous._idDevis._id, rendezvous._idrendezvous._id); visible=true">
+                        </button>
+                    </td>
+                    <td *ngIf="isClickedMap[rendezvous._idrendezvous._id]" class="px-6 py-4 text-center">
+                        <button pButton pRipple icon="pi pi-stop-circle" disabled severity="danger"></button>
+                    </td>
                 </tr>
             </tbody>
         </table>
