@@ -35,8 +35,8 @@ export class DetaildevisService {
     getAllTacheTerminer(id: string): Observable<any>{
         return this.http.get(`${this.apiUrl}/getAllTacheAndPieceTerminer/${id}`);
     }
-    UpdateTache(id: string,tache: any): Observable<any>{
-        return this.http.put(`${this.apiUrl}/updatetache/${id}`,tache);
+    UpdateTache(id: string,iddevis: string,tache: any): Observable<any>{
+        return this.http.put(`${this.apiUrl}/updatetache/${id}/${iddevis}`,tache);
     }
     getTacheDevis(id: string): Observable<any> {
         return this.http.get(`${this.apiUrl}/detailForRdv/${id}`);

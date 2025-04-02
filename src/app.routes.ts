@@ -48,7 +48,7 @@ export const appRoutes: Routes = [
         children: [
             { path: '', component: ListeRendezVousComponent },
             { path: 'page/planing/liste-rendez-vous', component: ListeRendezVousComponent },
-            { path: 'planing/rendez-vous/:id/:idrdv', component: PlaningMecanicienComponent }
+            { path: 'planing/rendez-vous/:id/:idrdv/:iddevis', component: PlaningMecanicienComponent }
         ]
     },
     { path: '',component: ClientComponent},
