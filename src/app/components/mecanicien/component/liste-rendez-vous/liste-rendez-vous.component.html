@@ -17,7 +17,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let rendezvous of lsitrendezvous" class=" border-gray-300 odd:bg-gray-100 even:bg-white hover:bg-gray-200 transition-all duration-200 cursor-pointer" (click)="goToPlaningMecanicien(rendezvous._idrendezvous._idDevis._id,rendezvous._idrendezvous._id)">
+                <tr *ngFor="let rendezvous of lsitrendezvous" class=" border-gray-300 odd:bg-gray-100 even:bg-white hover:bg-gray-200 transition-all duration-200 cursor-pointer" (click)="goToPlaningMecanicien(rendezvous._idrendezvous._idDevis._id,rendezvous._idrendezvous._id,rendezvous._idrendezvous._idDevis._id)">
                     <td class="px-6 py-4 text-center font-medium">{{ rendezvous._idrendezvous.daterdv | date: 'dd/MM/yy' }}</td>
                     <td class="px-6 py-4 text-center font-medium">{{ rendezvous._idrendezvous.heuredebut }} → {{ rendezvous._idrendezvous.heurefin }}</td>
                     <td class="px-6 py-4 text-center font-medium">{{ rendezvous._idrendezvous._idDevis.categorieVehicule.typeVehicule.nomTypeVehicule }}/{{ rendezvous._idrendezvous._idDevis.categorieVehicule.typeMoteur.nomTypeMoteur }}</td>

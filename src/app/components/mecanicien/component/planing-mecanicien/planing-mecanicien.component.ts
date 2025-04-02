@@ -15,6 +15,7 @@ import { DetaildevisService } from '../../../../services/detaildevis/detaildevis
 export class PlaningMecanicienComponent implements OnInit {
     id!: string;
     idrdv!: string;
+    iddevis!: string;
     todo: any[] = [];
     inProgress: any[] = [];
     done: any[] = [];
@@ -30,6 +31,7 @@ export class PlaningMecanicienComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id')!;
       this.idrdv = params.get('idrdv')!;
+      this.iddevis = params.get('iddevis')!;
     });
     this.loadTache();
     this.loadTacheEnCour();
@@ -60,7 +62,7 @@ export class PlaningMecanicienComponent implements OnInit {
     this.visibletermine = true;
   }
   encour(id:string){
-    this.detailDevis.UpdateTache(id,{etat : 1}).subscribe(
+    this.detailDevis.UpdateTache(id,this.iddevis,{etat : 1}).subscribe(
         (response) => {
           console.log('Tâche mise à jour avec succès', response);
         },
@@ -72,7 +74,7 @@ export class PlaningMecanicienComponent implements OnInit {
       window.location.reload();
   }
   terminer(id:string){
-    this.detailDevis.UpdateTache(id,{etat : 2}).subscribe(
+    this.detailDevis.UpdateTache(id,this.iddevis,{etat : 2}).subscribe(
         (response) => {
           console.log('Tâche mise à jour avec succès', response);
         },
