@@ -50,8 +50,8 @@ export class ListeRendezVousComponent implements OnInit {
         });
     }
 
-    goToPlaningMecanicien(id: string, idrdv: string) {
-        this.router.navigate(['mecanicien/planing/rendez-vous', id, idrdv]);
+    goToPlaningMecanicien(id: string, idrdv: string,iddevis: string) {
+        this.router.navigate(['mecanicien/planing/rendez-vous', id, idrdv, iddevis]);
     }
     onButtonClick(event: Event, idDevis: string, idRdv: string) {
         event.stopPropagation();
