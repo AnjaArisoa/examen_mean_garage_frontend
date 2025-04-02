@@ -1,0 +1,11 @@
+<div class="card !mb-8">
+    <div class="flex">
+        <p class="font-semibold text-xl mb-4">Répartition des services demandés</p>
+        <div class="flex gap-3 mb-3 w-[50%]">
+            <p-calendar  view="month" dateFormat="mm" placeholder="Mois" [(ngModel)]="mois"></p-calendar>
+            <p-calendar  view="year" dateFormat="yy" placeholder="Année" [(ngModel)]="annee"></p-calendar>
+            <p-button icon="pi pi-search" (onClick)="loadMecaRdv()"/>
+        </div>
+    </div>
+    <p-chart type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
+</div>

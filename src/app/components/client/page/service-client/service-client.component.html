@@ -22,26 +22,23 @@
     <br>
     <br>
     <br>
-    <p-carousel [value]="products" [numVisible]="4" [numScroll]="4"
+    <p-carousel
+    [value]="services" [numVisible]="4" [numScroll]="4"
         [circular]="false" [responsiveOptions]="carouselResponsiveOptions">
-        <ng-template let-product #item>
+        <ng-template let-service #item>
             <div
                 class="border border-surface rounded-border m-2 p-4 hover-effect"
-                (click)="goToProductDetail(product.id)">
+                (click)="goToProductDetail(service.id)">
                 <div class="mb-4">
                     <div class="relative mx-auto">
-                        <img
-                            src="https://primefaces.org/cdn/primeng/images/demo/product/{{ product.image }}"
-                            [alt]="product.name"
-                            class="w-full rounded-border" />
+                        <img *ngIf="service.img" [src]="'http://localhost:5000' + service.img" class="img-size" />
                     </div>
                 </div>
-                <div class="mb-4 font-bold text-xl">{{ product.name }}</div>
+                <div class="mb-4 font-bold text-xl">{{ service.nom }}</div>
                 <div class="flex justify-between items-center">
                     <div class="mt-0 font-medium ">
                         {{
-                        'nous réparons vos machine et nous nous vous souhaitons une bonne année a tous et toutes'
-                        | slice:0:40 }}...
+                        service.description | slice:0:100 }}...
                     </div>
                 </div>
             </div>

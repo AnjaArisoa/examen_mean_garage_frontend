@@ -1,0 +1,117 @@
+<div class="card " >
+    <div class="flex mb-5 gap-3">
+        <input
+            type="text"
+            pInputText
+            variant="filled"
+            placeholder="Nom Piece"
+            [(ngModel)]="nomPiece"
+        />
+        <input
+            type="text"
+            pInputText
+            variant="filled"
+            placeholder="Reference"
+            [(ngModel)]="reference"
+        />
+        <p-select
+            [options]="marque"
+            placeholder="Marque Vehicule"
+            [editable]="true"
+            optionLabel="name"
+             optionValue="id"
+            class="w-full md:w-56"
+            [(ngModel)]="marqueVehicule"
+        />
+        <p-select
+            [options]="modele"
+            placeholder="Modele Vehicule"
+            [editable]="true"
+            optionLabel="name"
+             optionValue="id"
+            class="w-full md:w-56"
+            [(ngModel)]="modeleVehicule"
+        />
+        <p-select
+            [options]="categorie"
+            placeholder="Categorie Vehicule"
+            [editable]="true"
+            optionLabel="name"
+             optionValue="id"
+            class="w-full md:w-56"
+            [(ngModel)]="catv"
+        />
+        <p-button icon="pi pi-search" (click)="loadArticles()"></p-button>
+    </div>
+
+    <p-table
+        [value]="donnee"
+        [paginator]="true"
+        [rows]="5"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]"
+    >
+        <ng-template #header>
+            <tr>
+                <th style="width:25%">Reference</th>
+                <th style="width:25%">Nom Piece</th>
+                <th style="width:25%">Marque vehicule</th>
+                <th style="width:25%">Modele</th>
+                <th style="width:25%">Categorie Vehicule</th>
+                <th style="width:25%">Prix</th>
+                <th style="width:25%">Nombre</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-donne>
+            <tr>
+                <td>{{ donne.reference }}</td>
+                <td>{{ donne.nomPiece }}</td>
+                <td>{{ donne.marqueDetails?.marqueVehicule }}</td>
+                <td>{{ donne.modeleDetails?.modeleVehicule }}</td>
+                <td>{{ donne.typeVehiculeDetails?.nomTypeVehicule }}{{"/"}}{{ donne.typeMoteurDetails?.nomTypeMoteur }}</td>
+                <td>{{ donne.prix }}</td>
+                <td>{{ donne.stockDifference }}</td>
+                <td>
+                    <p-button (click)="showDialog(donne)" icon="pi pi-plus" />
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<!-- modal -->
+<p-dialog header="Commande Pieces" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Nom Piece</label>
+        <input pInputText id="username" class="flex-auto" autocomplete="off" [value]="selectedItem?.nomPiece" disabled />
+    </div>
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Modele voiture</label>
+        <input pInputText id="username" class="flex-auto" autocomplete="off" [value]="selectedItem?.modeleDetails?.modeleVehicule" disabled />
+    </div>
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Type voiture</label>
+        <input pInputText id="username" class="flex-auto" autocomplete="off" [value]="selectedItem?.marqueDetails?.marqueVehicule" disabled />
+    </div>
+    <div class="flex items-center gap-4 mb-4">
+        <label for="username" class="font-semibold w-24">Type moteur</label>
+        <input pInputText id="username" class="flex-auto" autocomplete="off" [value]="selectedItem?.prix" disabled />
+    </div>
+    <div class="flex items-center gap-4 mb-8">
+        <label for="email" class="font-semibold w-24">Nombre</label>
+        <input
+            pInputText
+            id="nombre"
+            class="flex-auto"
+            autocomplete="off"
+            type="number"
+            [value]="selectedItem?.stockDifference"
+            [(ngModel)]="newCommande.stockDifference"
+            min="0"
+        />
+
+    </div>
+    <div class="flex justify-end gap-2">
+        <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+        <p-button label="Save" (click)="saveCommande()" />
+    </div>
+</p-dialog>

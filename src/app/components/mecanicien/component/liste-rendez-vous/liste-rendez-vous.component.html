@@ -1,0 +1,37 @@
+<div class="card shadow-lg rounded-lg bg-white p-4" style="overflow: auto;">
+    <div class="card-header mb-4">
+        <h2 class="text-xl font-semibold text-blue-500">Rendez-vous Mécanicien</h2>
+    </div>
+
+    <div class="card-body">
+        <table class="table-auto w-full">
+            <thead class="bg-gray-700 hidden sm:table-header-group text-white">
+                <tr>
+                    <th class="px-6 py-4 text-center font-medium">📅 Date</th>
+                    <th class="px-6 py-4 text-center font-medium">🕒 Heure</th>
+                    <th class="px-6 py-4 text-center font-medium">🚗 Véhicule</th>
+                    <th class="px-6 py-4 text-center font-medium">🚛 Modèle</th>
+                    <th class="px-6 py-4 text-center font-medium">🔑 Immatriculation</th>
+                    <th class="px-6 py-4 text-center font-medium">👨‍🔧 Collaborateur</th>
+                    <th class="px-6 py-4 text-center font-medium">▶️ Commencer</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let rendezvous of lsitrendezvous" class=" border-gray-300 odd:bg-gray-100 even:bg-white hover:bg-gray-200 transition-all duration-200 cursor-pointer" (click)="goToPlaningMecanicien(rendezvous._idrendezvous._idDevis._id,rendezvous._idrendezvous._id)">
+                    <td class="px-6 py-4 text-center font-medium">{{ rendezvous._idrendezvous.daterdv | date: 'dd/MM/yy' }}</td>
+                    <td class="px-6 py-4 text-center font-medium">{{ rendezvous._idrendezvous.heuredebut }} → {{ rendezvous._idrendezvous.heurefin }}</td>
+                    <td class="px-6 py-4 text-center font-medium">{{ rendezvous._idrendezvous._idDevis.categorieVehicule.typeVehicule.nomTypeVehicule }}/{{ rendezvous._idrendezvous._idDevis.categorieVehicule.typeMoteur.nomTypeMoteur }}</td>
+                    <td class="px-6 py-4 text-center font-medium">{{ rendezvous._idrendezvous._idDevis.modeleVehicule.modeleVehicule}}</td>
+                    <td class="px-6 py-4 text-center font-medium">{{ rendezvous._idrendezvous.matriculation }}</td>
+                    <td class="px-6 py-4 text-center">{{ rendezvous.utilisateurs.length-1  }}</td>
+                    <td *ngIf="!isClicked" class="px-6 py-4 text-center"><button pButton pRipple icon="pi pi-play" (click)="onButtonClick($event,rendezvous._idrendezvous._idDevis._id,rendezvous._idrendezvous._id);visible=true"></button></td>
+                    <td *ngIf="isClicked" class="px-6 py-4 text-center"><button pButton pRipple icon="pi pi-stop-circle" disabled severity="danger"></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<p-dialog header="Resultat" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <span *ngIf="errorMessage" class="p-text-secondary block mb-8">{{ errorMessage }}</span>
+</p-dialog>

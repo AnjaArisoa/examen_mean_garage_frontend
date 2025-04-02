@@ -1,0 +1,135 @@
+<div class="card " >
+    <div class="flex justify-end mb-3">
+        <p-button (click)="showDialogNew()" icon="pi pi-plus" label="New" severity="info" />
+    </div>
+    <!-- <div class="flex mb-5 gap-3">
+        <input type="text" pInputText  variant="filled" placeholder="Nom Piece"/>
+        <input type="text" pInputText  variant="filled" placeholder="Modele Voiture"/>
+        <p-select [options]="typeV"  placeholder="Type voiture" [editable]="true" optionLabel="name" class="w-full md:w-56" />
+        <p-select [options]="typeM"  placeholder="Type moteur" [editable]="true" optionLabel="name" class="w-full md:w-56" />
+        <p-button icon="pi pi-search"/>
+    </div> -->
+
+    <p-table
+        [value]="donnee"
+        [paginator]="true"
+        [rows]="5"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]"
+    >
+        <ng-template #header>
+            <tr>
+                <th style="width:25%">Reference</th>
+                <th style="width:25%">Nom Piece</th>
+                <th style="width:25%">Marque vehicule</th>
+                <th style="width:25%">Modele Vehicule</th>
+                <th style="width:25%">Categorie Vehicule</th>
+                <th style="width:25%">Nombre</th>
+                <th style="width:25%">Date</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-donne>
+            <tr>
+                <td>{{ donne.pieces.reference }}</td>
+                <td>{{ donne.pieces.nomPiece }}</td>
+                <td>{{ donne.pieces.marqueVehicule.marqueVehicule }}</td>
+                <td>{{ donne.pieces.modeleVehicule.modeleVehicule }}</td>
+                <td>{{ donne.pieces.categorieVehicule.typeVehicule.nomTypeVehicule}}/{{ donne.pieces.categorieVehicule.typeMoteur.nomTypeMoteur}}</td>
+                <td>{{ donne.nombre }}</td>
+                <td>{{ formatDate(donne.createdAt) }}</td>
+                <td class="flex gap-2">
+                    <p-button (click)="showDialogCheck(donne)" icon="pi pi-check" />
+                    <p-button (click)="deleteCommande(donne._id)" icon="pi pi-trash" severity="danger" />
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<!-- Modal check -->
+<p-dialog header="Vérification Pièces" [modal]="true" [(visible)]="visiblecheck" [style]="{ width: '25rem' }">
+    <div class="flex items-center gap-4 mb-4">
+        <label class="font-semibold w-24">Nom Pièce</label>
+        <input pInputText class="flex-auto" autocomplete="off" [value]="selectedCommande?.pieces.nomPiece" disabled />
+    </div>
+    <div class="flex items-center gap-4 mb-4">
+        <label class="font-semibold w-24">Modèle Voiture</label>
+        <input pInputText class="flex-auto" autocomplete="off" [value]="selectedCommande?.pieces.modeleVehicule.modeleVehicule" disabled />
+    </div>
+    <div class="flex items-center gap-4 mb-8">
+        <label class="font-semibold w-24">Nombre Arrivé</label>
+        <input pInputText class="flex-auto" type="number" min="1" [(ngModel)]="nombreArrive" />
+    </div>
+    <div class="flex justify-end gap-2">
+        <p-button label="Annuler" severity="secondary" (click)="visiblecheck = false" />
+        <p-button label="Enregistrer" (click)="checkCommande()" />
+    </div>
+</p-dialog>
+
+<!-- modal new -->
+<p-dialog header="Ajout Pièces" [modal]="true" [(visible)]="visiblenew" [style]="{ width: '25rem' }">
+    <div class="flex items-center gap-4 mb-4">
+        <label for="nomPiece" class="font-semibold w-24">Nom Pièce</label>
+        <input pInputText id="nomPiece" class="flex-auto" autocomplete="off" [(ngModel)]="newArticle.nomPiece" />
+    </div>
+
+    <div class="flex items-center gap-4 mb-4">
+        <label for="reference" class="font-semibold w-24">Référence</label>
+        <input pInputText id="reference" class="flex-auto" autocomplete="off" [(ngModel)]="newArticle.reference" />
+    </div>
+
+    <div class="flex items-center gap-4 mb-4">
+        <label for="marqueVehicule" class="font-semibold w-24">Marque Véhicule</label>
+        <p-select
+            [options]="marque"
+            [(ngModel)]="newArticle.marqueVehicule"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Sélectionnez une marque"
+            class="w-full md:w-56"
+        />
+    </div>
+
+    <div class="flex items-center gap-4 mb-4">
+        <label for="modeleVehicule" class="font-semibold w-24">Modèle Voiture</label>
+        <p-select
+            [options]="modele"
+            [(ngModel)]="newArticle.modeleVehicule"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Sélectionnez un modèle"
+            class="w-full md:w-56"
+        />
+    </div>
+
+    <div class="flex items-center gap-4 mb-4">
+        <label for="categorieVehicule" class="font-semibold w-24">Catégorie Véhicule</label>
+        <p-select
+            [options]="categorie"
+            [(ngModel)]="newArticle.categorieVehicule"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Sélectionnez une catégorie"
+            class="w-full md:w-56"
+        />
+    </div>
+
+    <div class="flex items-center gap-4 mb-8">
+        <label for="prix" class="font-semibold w-24">Prix</label>
+        <input
+            pInputText
+            id="prix"
+            class="flex-auto"
+            autocomplete="off"
+            type="number"
+            [(ngModel)]="newArticle.prix"
+            min="0"
+        />
+    </div>
+
+    <div class="flex justify-end gap-2">
+        <p-button label="Annuler" severity="secondary" (click)="visiblenew = false" />
+        <p-button label="Enregistrer" (click)="addPiece()" />
+    </div>
+</p-dialog>
+
+

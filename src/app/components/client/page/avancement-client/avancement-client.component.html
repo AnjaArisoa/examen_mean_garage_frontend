@@ -1,0 +1,43 @@
+<div class="bg-surface-0 dark:bg-surface-900">
+    <div id="home" class="landing-wrapper overflow-hidden">
+        <app-topbar-client class="py-6 px-6 mx-0 md:mx-12 lg:mx-20 lg:px-20 flex items-center justify-between fix lg:static"></app-topbar-client>
+
+        <div class="card" style="background-color:#97D5FF;">
+            <p-table
+                [value]="donne"
+                [paginator]="true"
+                [rows]="5"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                [rowsPerPageOptions]="[5, 10, 20]"
+            >
+                <ng-template #header>
+                    <tr>
+                        <th style="width:20%">Date RDV</th>
+                        <th style="width:20%">Immatriculation</th>
+                        <th style="width:20%">Heure début</th>
+                        <th style="width:20%">Heure fin</th>
+                        <th style="width:20%">Avancement</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template #body let-donne>
+                    <tr style="cursor: pointer;" (click)="goToDetailAvancement(donne._idDevis)">
+                        <td>{{ donne.daterdv | date: 'dd/MM/yy' }}</td>
+                        <td>{{ donne.matriculation }}</td>
+                        <td>{{ donne.heuredebut }}</td>
+                        <td>{{ donne.heurefin }}</td>
+                        <td>
+                            <p-progressBar
+                                [value]="donne.pourcentage"
+                                [style]="{ 'width': '12rem' }">
+                            </p-progressBar>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <app-footer-client></app-footer-client>
+    </div>
+</div>
+
