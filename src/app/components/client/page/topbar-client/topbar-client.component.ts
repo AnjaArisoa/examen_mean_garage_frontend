@@ -66,18 +66,19 @@ export class TopbarClientComponent {
     }
 
     loadModele(): void {
-        this.modelevehiculeService.getModeleVehicule().subscribe(data => {
-            console.log("Modèle avant transformation:", data);
+        if (!this.catv) {
+            console.log("Aucune catégorie sélectionnée, chargement annulé.");
+            return;
+        }
 
+        this.modelevehiculeService.getModeleVehiculeById(this.catv).subscribe(data => {
             this.modele = data.map((item: any) => ({
                 id: item._id,
-                name: item.modeleVehicule // Assure-toi que c'est le bon champ
+                name: item.modeleVehicule
             }));
-
-            console.log("Modèle après transformation:", this.modele);
+            console.log("Modèle après transformation (filtré) :", this.modele);
         });
     }
-
     // Dans votre composant
     getPieces() {
         // Si les valeurs sont déjà récupérées dans catv et modeleVehicule

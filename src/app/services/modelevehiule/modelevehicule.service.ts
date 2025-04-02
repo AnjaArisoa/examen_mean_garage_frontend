@@ -13,6 +13,9 @@ export class ModelevehiculeService {
        getModeleVehicule(): Observable<any> {
         return this.http.get(`${this.apiUrl}`);
         }
+        getModeleVehiculeById(idCategorie:string): Observable<any> {
+            return this.http.get(`${this.apiUrl}/${idCategorie}`);
+            }
        addModeleVehicule(piece: any): Observable<any> {
            return this.http.post(this.apiUrl, piece);
        }
