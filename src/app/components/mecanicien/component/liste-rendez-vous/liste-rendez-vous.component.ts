@@ -17,7 +17,7 @@ interface City {
 
 @Component({
     selector: 'app-liste-rendez-vous',
-    imports: [CommonModule, InputTextModule, FormsModule, ButtonModule,Dialog],
+    imports: [CommonModule, InputTextModule, FormsModule, ButtonModule, Dialog],
     templateUrl: './liste-rendez-vous.component.html',
     styleUrl: './liste-rendez-vous.component.scss'
 })
@@ -25,8 +25,8 @@ export class ListeRendezVousComponent implements OnInit {
     pieces: any[] = []; // Variable pour stocker les pièces récupérées
     stock: any[] = [];
     errorMessage: string = ''; // Variable pour afficher un message d'erreur
-    visible:boolean = false;
-    isClicked: boolean = false;
+    visible: boolean = false;
+    isClickedMap: { [key: string]: boolean } = {};
     constructor(
         private router: Router,
         private MecaRdvService: MacardvService,
@@ -36,8 +36,11 @@ export class ListeRendezVousComponent implements OnInit {
     lsitrendezvous: any[] = [];
 
     ngOnInit(): void {
-        // Vérifie dans le localStorage si le bouton doit être caché
-        this.isClicked = localStorage.getItem('buttonClicked') === 'true';
+        // Récupère les états des boutons du localStorage
+        const storedData = localStorage.getItem('buttonClickedMap');
+        if (storedData) {
+            this.isClickedMap = JSON.parse(storedData);
+        }
         this.loadRendezvousmeca();
     }
     loadRendezvousmeca(): void {
@@ -72,14 +75,15 @@ export class ListeRendezVousComponent implements OnInit {
                         this.errorMessage = 'stock insuffisant veillez informer le manager';
                         return
                     } else {
-                        this.PiecesService.deleteByRdv(idRdv).subscribe(response => {});
+                        this.PiecesService.deleteByRdv(idRdv).subscribe(response => { });
                         this.StockService.addSorti(sorti).subscribe(
                             response => {
                                 this.errorMessage = 'Vous pouvez commencer';
                             }
                         );
-                        this.isClicked = true;
-                        localStorage.setItem('buttonClicked', 'true');
+                        // Mettre à jour l'état de `isClickedMap`
+                        this.isClickedMap[idRdv] = true;
+                        localStorage.setItem('buttonClickedMap', JSON.stringify(this.isClickedMap));
                     }
                 })
             });
