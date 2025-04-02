@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
-  apiUrl: 'https://examen-mean-garage-backend.onrender.com/' // URL pour le développement
+  production: false,
+  apiUrl: 'https://examen-mean-garage-backend.onrender.com' // URL pour le développement
   };
