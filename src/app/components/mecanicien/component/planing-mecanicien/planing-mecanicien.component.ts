@@ -73,7 +73,7 @@ export class PlaningMecanicienComponent implements OnInit {
       this.visibleencour = false;
       setTimeout(function() {
         window.location.reload();
-    }, 10000); // 10 000 ms = 10 secondes
+    }, 3000); // 10 000 ms = 10 secondes
 
   }
   terminer(id:string){
@@ -88,7 +88,7 @@ export class PlaningMecanicienComponent implements OnInit {
       this.visibletermine = false;
       setTimeout(function() {
         window.location.reload();
-    }, 10000); // 10 000 ms = 10 secondes
+    }, 3000); // 10 000 ms = 10 secondes
 
   }
 
