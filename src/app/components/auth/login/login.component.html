@@ -22,25 +22,29 @@
                                     <p-tab value="1" (click)="stat(1)">Mecanicien</p-tab>
                                     <p-tab value="2" (click)="stat(2)">Manager</p-tab>
                                 </p-tablist>
+                                <br *ngIf="erreur">
+                                <p-message *ngIf="erreur" severity="error" class="center-text">{{ erreur
+                                    }}</p-message>
                                 <p-tabpanels>
                                     <p-tabpanel value="0">
                                         <div>
                                             <label for="email1"
                                                 class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Email</label>
                                             <input pInputText id="email1" type="text" placeholder="Entrer email..."
-                                                class="w-full md:w-[30rem] mb-8" [(ngModel)]="email"/>
+                                                class="w-full md:w-[30rem] mb-8" [(ngModel)]="email" />
 
                                             <label for="password1"
-                                                class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Mot de passe</label>
+                                                class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Mot
+                                                de passe</label>
                                             <p-password id="password1" [(ngModel)]="mdp" placeholder="Mot de passe..."
                                                 [toggleMask]="true" styleClass="mb-4" [fluid]="true"
                                                 [feedback]="false"></p-password>
-
                                             <div class="flex items-center justify-between mt-2 mb-8 gap-8">
                                                 <div class="flex items-center">
                                                 </div>
                                                 <span
-                                                    class="font-medium no-underline ml-2 text-right cursor-pointer text-primary" routerLink="/inscription">S'inscrire</span>
+                                                    class="font-medium no-underline ml-2 text-right cursor-pointer text-primary"
+                                                    routerLink="/inscription">S'inscrire</span>
                                             </div>
                                             <p-button label="Se connecter" styleClass="w-full"
                                                 (click)="login()"></p-button>
@@ -54,7 +58,8 @@
                                                 class="w-full md:w-[30rem] mb-8" [(ngModel)]="email" />
 
                                             <label for="password1"
-                                                class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Mot de passe</label>
+                                                class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Mot
+                                                de passe</label>
                                             <p-password id="password1" [(ngModel)]="mdp" placeholder="Mot de passe..."
                                                 [toggleMask]="true" styleClass="mb-4" [fluid]="true"
                                                 [feedback]="false"></p-password>
@@ -63,7 +68,8 @@
                                                 <div class="flex items-center">
                                                 </div>
                                                 <span
-                                                    class="font-medium no-underline ml-2 text-right cursor-pointer text-primary" routerLink="/inscription">S'inscrire</span>
+                                                    class="font-medium no-underline ml-2 text-right cursor-pointer text-primary"
+                                                    routerLink="/inscription">S'inscrire</span>
                                             </div>
                                             <p-button label="Se connecter" styleClass="w-full"
                                                 (click)="login()"></p-button>
@@ -77,7 +83,8 @@
                                                 class="w-full md:w-[30rem] mb-8" [(ngModel)]="email" />
 
                                             <label for="password1"
-                                                class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Mot de passe</label>
+                                                class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Mot
+                                                de passe</label>
                                             <p-password id="password1" [(ngModel)]="mdp" placeholder="Mot de passe..."
                                                 [toggleMask]="true" styleClass="mb-4" [fluid]="true"
                                                 [feedback]="false"></p-password>
@@ -86,7 +93,8 @@
                                                 <div class="flex items-center">
                                                 </div>
                                                 <span
-                                                    class="font-medium no-underline ml-2 text-right cursor-pointer text-primary" routerLink="/inscription">S'inscrire</span>
+                                                    class="font-medium no-underline ml-2 text-right cursor-pointer text-primary"
+                                                    routerLink="/inscription">S'inscrire</span>
                                             </div>
                                             <p-button label="Se connecter" styleClass="w-full"
                                                 (click)="login()"></p-button>
@@ -107,5 +115,4 @@
     .white {
         color: white !important;
     }
-
 </style>

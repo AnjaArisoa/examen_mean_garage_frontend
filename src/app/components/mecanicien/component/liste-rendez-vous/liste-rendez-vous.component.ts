@@ -1,3 +1,5 @@
+import { EmailService } from './../../../../services/emailservice/email.service';
+import { RendezvousService } from './../../../../services/rdv/rendezvous.service';
 import { StockService } from './../../../../services/stock/stock.service';
 import { PiecesService } from '../../../../services/pieces/pieces.service';
 import { CommonModule } from '@angular/common';
@@ -32,7 +34,9 @@ export class ListeRendezVousComponent implements OnInit {
         private MecaRdvService: MacardvService,
         private authService: AuthService,
         private PiecesService: PiecesService,
-        private StockService: StockService) { }
+        private StockService: StockService,
+        private RendezvousService:RendezvousService,
+        private EmailService:EmailService) { }
     lsitrendezvous: any[] = [];
 
     ngOnInit(): void {
@@ -87,6 +91,20 @@ export class ListeRendezVousComponent implements OnInit {
                     }
                 })
             });
+        });
+    }
+
+    envoyermail(event: Event,idRdv: string) {
+        event.stopPropagation();
+        this.RendezvousService.getById(idRdv).subscribe((data) => {console.log(data.matriculation,data._idUtilisateur.email)
+            this.EmailService.sendEmail({ email: data._idUtilisateur.email, immatricule: data.matriculation }).subscribe(
+                (response) => {
+                    this.MecaRdvService.updateEtatMecaRdv(idRdv).subscribe(
+                        (response) => {
+                            console.log('Email envoyé avec succès !');
+                        }
+                    );
+                });
         });
     }
 

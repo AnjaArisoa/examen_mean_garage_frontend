@@ -43,9 +43,12 @@
             </a>
         </li>
     </ul>
-    <div class="flex border-t lg:border-t-0 border-surface py-4 lg:py-0 mt-4 lg:mt-0 gap-2">
+    <div *ngIf="!clientrolechek"  class="flex border-t lg:border-t-0 border-surface py-4 lg:py-0 mt-4 lg:mt-0 gap-2">
         <button pButton pRipple label="Login" routerLink="/login" [rounded]="true" [text]="true" ></button>
         <button pButton pRipple label="register" routerLink="/inscription" [rounded]="true" ></button>
+    </div>
+    <div *ngIf="clientrolechek"  class="flex border-t lg:border-t-0 border-surface py-4 lg:py-0 mt-4 lg:mt-0 gap-2">
+        <button pButton pRipple icon="pi pi-sign-out"  [rounded]="true" style="background-color: red;border:none" (click)="logout()"></button>
     </div>
 </div>
 
