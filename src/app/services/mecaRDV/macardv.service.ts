@@ -20,4 +20,8 @@ export class MacardvService {
     getMecaRdv(data:any):Observable<any>{
         return this.http.get(`${this.apiUrl}/nombreParMeca`,data);
     }
+    updateEtatMecaRdv(idrdv: string): Observable<any> {
+        return this.http.put(`${this.apiUrl}/update-etat/${idrdv}`, {});
+    }
+
 }
