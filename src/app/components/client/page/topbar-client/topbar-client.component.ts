@@ -11,9 +11,10 @@ import { ModelevehiculeService } from '../../../../services/modelevehiule/modele
 import { Select } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../../services/authservice/auth.service';
+import { CommonModule } from '@angular/common';
 @Component({
     selector: 'app-topbar-client',
-    imports: [RouterModule, StyleClassModule, ButtonModule, RippleModule, Dialog, InputTextModule, Select, FormsModule],
+    imports: [RouterModule, StyleClassModule, ButtonModule, RippleModule, Dialog, InputTextModule, Select, FormsModule,CommonModule],
     templateUrl: './topbar-client.component.html',
     styleUrl: './topbar-client.component.scss'
 })
@@ -24,6 +25,8 @@ export class TopbarClientComponent {
     categorie: any[] = [];
     catv: string = "";
     modeleVehicule: string = '';
+    clientrole: string = '';
+    clientrolechek: boolean = false;
     goToSection(fragment: string) {
         this.router.navigate([''], { fragment: fragment });
     }
@@ -50,6 +53,10 @@ export class TopbarClientComponent {
     ngOnInit(): void {
         this.loadCategorie();
         this.loadModele();
+        this.clientrole = this.authService.getUserRole()??'';
+        if (this.clientrole == "client") {
+            this.clientrolechek = true;
+        }
     }
 
     loadCategorie(): void {
@@ -91,6 +98,11 @@ export class TopbarClientComponent {
         } else {
             console.error('Categorie ou modele non définis.');
         }
+    }
+
+    logout() {
+        this.authService.logout();
+        this.router.navigate(['/login']);
     }
 
 }

@@ -14,6 +14,7 @@
                     <th class="px-6 py-4 text-center font-medium">🔑 Immatriculation</th>
                     <th class="px-6 py-4 text-center font-medium">👨‍🔧 Collaborateur</th>
                     <th class="px-6 py-4 text-center font-medium">▶️ Commencer</th>
+                    <th class="px-6 py-4 text-center font-medium">📨 Terminer</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,11 +27,17 @@
                     <td class="px-6 py-4 text-center">{{ rendezvous.utilisateurs.length-1  }}</td>
                     <td *ngIf="!isClickedMap[rendezvous._idrendezvous._id]" class="px-6 py-4 text-center">
                         <button pButton pRipple icon="pi pi-play"
-                            (click)="onButtonClick($event, rendezvous._idrendezvous._idDevis._id, rendezvous._idrendezvous._id); visible=true">
+                            (click)="onButtonClick($event, rendezvous._idrendezvous._idDevis._id, rendezvous._idrendezvous._id); visible=true" [rounded]="true" [disabled]="isClickedMap[rendezvous._idrendezvous._id]">
                         </button>
                     </td>
                     <td *ngIf="isClickedMap[rendezvous._idrendezvous._id]" class="px-6 py-4 text-center">
-                        <button pButton pRipple icon="pi pi-stop-circle" disabled severity="danger"></button>
+                        <button pButton pRipple icon="pi pi-stop-circle" disabled severity="danger"  [rounded]="true"></button>
+                    </td>
+                    <td *ngIf="rendezvous._etat == 0" class="px-6 py-4 text-center">
+                        <button pButton pRipple icon="pi pi-send" severity="success"  [rounded]="true" (click)="envoyermail($event,rendezvous._idrendezvous._id)"></button>
+                    </td>
+                    <td *ngIf="rendezvous._etat == 1" class="px-6 py-4 text-center">
+                        <button pButton pRipple icon="pi pi-check-circle" severity="success" disabled></button>
                     </td>
                 </tr>
             </tbody>
